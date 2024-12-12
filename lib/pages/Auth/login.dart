@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/pages/Auth/register.dart';
 import 'package:ecommerce_app/routes/routes.dart';
 import 'package:flutter/material.dart';
 
@@ -67,6 +68,31 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: login,
                       child: Text("Đăng nhập"),
                       style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  child: Container(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterPage()),
+                        );
+                      },
+                      child: Text(
+                        "Đăng kí tài khoản",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.zero,
                         ),
