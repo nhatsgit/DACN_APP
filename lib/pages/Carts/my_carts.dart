@@ -1,6 +1,12 @@
+import 'package:ecommerce_app/components/ShoppingCart/CartItem.dart';
+import 'package:ecommerce_app/components/ShoppingCart/ShoppingCart.dart';
 import 'package:ecommerce_app/components/custom_app_bar.dart';
+import 'package:ecommerce_app/models/ShoppingCartModel.dart';
 import 'package:ecommerce_app/pages/Shared/CheckoutPage.dart';
+import 'package:ecommerce_app/services/CustomHttpClient.dart';
+import 'package:ecommerce_app/services/ShoppingCartServices.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class MyCartsPage extends StatefulWidget {
   const MyCartsPage({super.key});
@@ -11,6 +17,27 @@ class MyCartsPage extends StatefulWidget {
 
 class _MyCartsPageState extends State<MyCartsPage> {
   // Initial product data
+  late Future<List<ShoppingCartModel>> _myShoppingCart = Future.value([]);
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchProductSuggestions();
+  }
+
+  Future<void> _fetchProductSuggestions() async {
+    try {
+      final shoppingcarts =
+          await ShoppingCartService(CustomHttpClient(http.Client(), context))
+              .fetchMyShoppingCarts();
+      setState(() {
+        _myShoppingCart = Future.value(shoppingcarts);
+      });
+    } catch (error) {
+      print('Lỗi khi fetch sản phẩm: $error');
+    }
+  }
+
   int quantity = 1;
 
   @override
@@ -26,88 +53,26 @@ class _MyCartsPageState extends State<MyCartsPage> {
             Spacer(),
           ]),
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(16),
-                    margin: EdgeInsets.only(bottom: 16),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Tên shop:sadasdasf",
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Image.network(
-                          "https://hanoicomputercdn.com/media/product/82669_laptop_lenovo_ideapad_slim_5_14imh9__83da0020vn__4.jpg", // URL of the image
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        ),
-                        SizedBox(height: 8),
-                        // Product 1 name and quantity
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Laptop",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Row(
-                              children: [
-                                IconButton(
-                                  icon: Icon(Icons.remove),
-                                  onPressed: () {
-                                    setState(() {
-                                      if (quantity > 1) {
-                                        quantity--;
-                                      }
-                                    });
-                                  },
-                                ),
-                                Text(
-                                  "$quantity",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.add),
-                                  onPressed: () {
-                                    setState(() {
-                                      quantity++;
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        // Product 1 price
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "500 VND",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.red),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+            child: FutureBuilder<List<ShoppingCartModel>>(
+              future: _myShoppingCart,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text("Lỗi: ${snapshot.error}"));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text("Không tìm thấy sản phẩm."));
+                }
+
+                final myShoppingCarts = snapshot.data!;
+                return ListView.builder(
+                  itemCount: myShoppingCarts.length,
+                  itemBuilder: (context, index) {
+                    return ShoppingCartWidget(
+                        shoppingCart: myShoppingCarts[index]);
+                  },
+                );
+              },
             ),
           ),
           Padding(

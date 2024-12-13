@@ -1,6 +1,10 @@
 import 'package:ecommerce_app/pages/Auth/register.dart';
 import 'package:ecommerce_app/routes/routes.dart';
+import 'package:ecommerce_app/services/AuthServices.dart';
+import 'package:ecommerce_app/services/CustomHttpClient.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,7 +16,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _txtUserName = TextEditingController();
   final TextEditingController _txtPassword = TextEditingController();
-  void login() {
+  void login() async {
     String username = _txtUserName.text.trim();
     String password = _txtPassword.text.trim();
 
@@ -22,7 +26,20 @@ class _LoginPageState extends State<LoginPage> {
             content: Text('Tên đăng nhập và mật khẩu không được để trống')),
       );
     } else {
-      Navigator.pushNamed(context, AppRoutes.home);
+      try {
+        // Giả sử bạn đã có hàm login API và trả về JWT token
+        String jwtToken =
+            await AuthServices(CustomHttpClient(http.Client(), context))
+                .login(username, password);
+        print(jwtToken);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('jwt', jwtToken);
+        Navigator.pushNamed(context, AppRoutes.home);
+      } catch (error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Lỗi đăng nhập: $error')),
+        );
+      }
     }
   }
 
