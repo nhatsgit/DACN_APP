@@ -1,14 +1,14 @@
 class VoucherModel {
   int voucherId;
-  String voucherCode;
+  String? voucherCode;
   int phanTramGiam;
-  DateTime ngayHetHan;
+  DateTime? ngayHetHan;
   int soLuongCon;
   int voucherCategoryId;
-  int? giamToiDa;
-  int donToiThieu;
+  double? giamToiDa;
+  double? donToiThieu;
   int? shopId;
-  DateTime ngayBatDau;
+  DateTime? ngayBatDau;
 
   VoucherModel({
     required this.voucherId,

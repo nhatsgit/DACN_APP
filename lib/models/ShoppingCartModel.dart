@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/models/ProductModel.dart';
 import 'package:ecommerce_app/models/ShopModel.dart';
+import 'package:ecommerce_app/utils/MyCaculator.dart';
 
 class ShoppingCartModel {
   final int shoppingCartId;
@@ -22,6 +23,16 @@ class ShoppingCartModel {
           .map((item) => CartItemModel.fromJson(item))
           .toList(),
       shop: ShopModel.fromJson(json['shop']),
+    );
+  }
+  double getTotalPrice() {
+    return cartItems.fold(
+      0,
+      (total, cartItem) =>
+          total +
+          (MyCaculator.calculateDiscountedPrice(cartItem.product.giaBan,
+                  cartItem.product.phanTramGiam.toDouble()) *
+              cartItem.quantity),
     );
   }
 }

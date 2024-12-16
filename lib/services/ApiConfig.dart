@@ -1,4 +1,10 @@
 class ApiConfig {
-  static const String baseAPIUrl = "https://localhost:7233/api/";
-  static const String baseUrl = "https://localhost:7233";
+  // static const String baseAPIUrl = "http://127.0.0.1:5201/api/";
+  // static const String baseUrl = "http://127.0.0.1:5201";
+  // static const String baseAPIUrl = "https://127.0.0.1:7233/api/";
+  // static const String baseUrl = "https://127.0.0.1:7233";
+  static const String baseAPIUrl = "https://192.168.1.8:7233/api/";
+  static const String baseUrl = "https://192.168.1.8:7233";
+  // static const String baseAPIUrl = "http://192.168.1.8:5201/api/";
+  // static const String baseUrl = "http://192.168.1.8:5201";
 }

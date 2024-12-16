@@ -1,6 +1,9 @@
 import 'package:ecommerce_app/components/ShoppingCart/CartItem.dart';
 import 'package:ecommerce_app/models/ShoppingCartModel.dart';
+import 'package:ecommerce_app/pages/Shared/CheckoutPage.dart';
+import 'package:ecommerce_app/utils/MyFormat.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ShoppingCartWidget extends StatelessWidget {
   final ShoppingCartModel shoppingCart;
@@ -30,9 +33,40 @@ class ShoppingCartWidget extends StatelessWidget {
           SizedBox(height: 8),
           Column(
             children: shoppingCart.cartItems
-                .map((cartItem) => CartItem(cartItem: cartItem))
+                .map((cartItem) => Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                    ),
+                    child: CartItem(cartItem: cartItem)))
                 .toList(),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                "Tổng thanh toán:${MyFormat.formatCurrency(shoppingCart.getTotalPrice())} ",
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                ),
+                onPressed: () {
+                  Get.to(() => CheckoutPage());
+                },
+                child: const Text(
+                  "Đặt hàng",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );

@@ -1,12 +1,12 @@
 class ShopModel {
   final int shopId;
-  final String tenCuaHang;
-  final String diaChi;
-  final String lienHe;
-  final String anhDaiDien;
-  final String anhBia;
-  final String ngayTao;
-  final String moTa;
+  final String? tenCuaHang;
+  final String? diaChi;
+  final String? lienHe;
+  final String? anhDaiDien;
+  final String? anhBia;
+  final String? ngayTao;
+  final String? moTa;
   final int shopCategoryId;
   final dynamic biChan;
 

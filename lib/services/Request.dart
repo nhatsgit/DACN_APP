@@ -4,11 +4,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CustomHttpClient {
+class MyHttp {
   final http.Client _client;
   final BuildContext context;
 
-  CustomHttpClient(this._client, this.context);
+  MyHttp(this._client, this.context);
 
   Future<http.Response> get(String endpoint) async {
     final token = await _getJwt();
@@ -21,7 +21,7 @@ class CustomHttpClient {
   }
 
   Future<http.Response> post(String endpoint, Map<String, dynamic> body) async {
-    final token = await _getJwt() ?? "cac";
+    final token = await _getJwt() ?? "xx";
     final url = Uri.parse('${ApiConfig.baseAPIUrl}$endpoint');
     final response = await _client.post(
       url,

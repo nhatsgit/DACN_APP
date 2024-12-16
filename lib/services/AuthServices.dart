@@ -9,7 +9,7 @@ class AuthServices {
   AuthServices(this._customHttpClient);
 
   Future<String> login(String userName, String password) async {
-    final endpoint = 'Account/login'; // Địa chỉ API
+    final endpoint = 'Account/login';
     final body = {
       'userName': userName,
       'password': password,

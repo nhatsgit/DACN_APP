@@ -1,10 +1,10 @@
 class UserInfoModel {
-  final String fullName;
-  final String address;
-  final String avatar;
-  final String phoneNumber;
-  final String email;
-  final String userName;
+  final String? fullName;
+  final String? address;
+  final String? avatar;
+  final String? phoneNumber;
+  final String? email;
+  final String? userName;
 
   UserInfoModel({
     required this.fullName,

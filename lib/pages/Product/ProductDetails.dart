@@ -66,8 +66,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: product.anhDaiDien != null &&
-                              product.anhDaiDien.isNotEmpty
+                      child: product.anhDaiDien != null
                           ? Image.network(
                               '${ApiConfig.baseUrl}${product.anhDaiDien}',
                               fit: BoxFit.cover,
@@ -81,8 +80,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     ),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: product.anhDaiDien != null &&
-                              product.anhDaiDien.isNotEmpty
+                      child: product.anhDaiDien != null
                           ? Image.network(
                               '${ApiConfig.baseUrl}${product.anhDaiDien}',
                               fit: BoxFit.cover,
@@ -137,7 +135,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const MyCartsPage(),
+                          builder: (context) => MyCartsPage(),
                         ),
                       );
                     },

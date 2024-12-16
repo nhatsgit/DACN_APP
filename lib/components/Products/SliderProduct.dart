@@ -42,7 +42,7 @@ class _SliderProductState extends State<SliderProduct> {
     return Column(
       children: [
         SizedBox(
-          height: 200,
+          height: 250,
           child: PageView.builder(
             controller: _pageController,
             itemCount: widget.products.length,
@@ -58,12 +58,12 @@ class _SliderProductState extends State<SliderProduct> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            product.tenSp,
+                            product.tenSp ?? "Ten SP",
                             style: const TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            product.moTa,
+                            product.moTa ?? "mota",
                             style: const TextStyle(fontSize: 20),
                           ),
                           const SizedBox(height: 10),
@@ -90,8 +90,7 @@ class _SliderProductState extends State<SliderProduct> {
                         color: Colors.grey[200],
                         width: 200,
                         height: 200,
-                        child: product.anhDaiDien != null &&
-                                product.anhDaiDien.isNotEmpty
+                        child: product.anhDaiDien != null
                             ? Image.network(
                                 '${ApiConfig.baseUrl}${product.anhDaiDien}',
                                 fit: BoxFit.cover,

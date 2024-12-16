@@ -1,16 +1,16 @@
 class ProductModel {
   final int productId;
-  final String tenSp;
-  final String anhDaiDien;
-  final String moTa;
-  final String thongSo;
+  final String? tenSp;
+  final String? anhDaiDien;
+  final String? moTa;
+  final String? thongSo;
   final double giaNhap;
   final double giaBan;
   final int soLuongCon;
   final int phanTramGiam;
   final double? diemDanhGia;
   final String? maSp;
-  final bool daAn;
+  final bool? daAn;
   final int productCategoryId;
   final int brandId;
   final int shopId;

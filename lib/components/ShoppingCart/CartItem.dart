@@ -1,5 +1,7 @@
 import 'package:ecommerce_app/models/ShoppingCartModel.dart';
 import 'package:ecommerce_app/services/ApiConfig.dart';
+import 'package:ecommerce_app/utils/MyCaculator.dart';
+import 'package:ecommerce_app/utils/MyFormat.dart';
 import 'package:flutter/material.dart';
 
 class CartItem extends StatefulWidget {
@@ -24,18 +26,17 @@ class _CartItemWidgetState extends State<CartItem> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image.network(
-          '${ApiConfig.baseUrl}${widget.cartItem.product.anhDaiDien}',
-          width: 100,
-          height: 100,
-          fit: BoxFit.cover,
-        ),
-        SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Image.network(
+              '${ApiConfig.baseUrl}${widget.cartItem.product.anhDaiDien}',
+              width: 100,
+              height: 100,
+              fit: BoxFit.cover,
+            ),
             Text(
-              widget.cartItem.product.tenSp,
+              widget.cartItem.product.tenSp ?? "Ten sp",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Row(
@@ -66,13 +67,12 @@ class _CartItemWidgetState extends State<CartItem> {
             ),
           ],
         ),
-        SizedBox(height: 8),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              "${widget.cartItem.product.giaBan} VND",
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+              "${MyFormat.formatCurrency(MyCaculator.calculateDiscountedPrice(widget.cartItem.product.giaBan.toDouble(), widget.cartItem.product.phanTramGiam.toDouble()))}",
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
             ),
           ],
         ),

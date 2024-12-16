@@ -1,6 +1,6 @@
 class PaymentModel {
   int paymentId;
-  String tenLoai;
+  String? tenLoai;
 
   PaymentModel({
     required this.paymentId,

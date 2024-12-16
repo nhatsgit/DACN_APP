@@ -33,8 +33,7 @@ class ProductCard extends StatelessWidget {
                 color: Colors.grey[200],
                 width: double.infinity,
                 child: Center(
-                  child: product.anhDaiDien != null &&
-                          product.anhDaiDien.isNotEmpty
+                  child: product.anhDaiDien != null
                       ? Image.network(
                           '${ApiConfig.baseUrl}${product.anhDaiDien}', // Thay thế URL phù hợp nếu cần
                           fit: BoxFit.fill,
