@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:ecommerce_app/models/ProductModel.dart';
-import 'package:ecommerce_app/pages/Product/ProductDetails.dart';
+import 'package:ecommerce_app/pages/Product/ProductDetailsPage.dart';
 import 'package:ecommerce_app/services/ApiConfig.dart';
 import 'package:ecommerce_app/utils/MyCaculator.dart';
 import 'package:ecommerce_app/utils/MyFormat.dart';

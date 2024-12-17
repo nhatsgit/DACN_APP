@@ -1,9 +1,11 @@
+import 'package:ecommerce_app/controllers/ProductDetailsController.dart';
 import 'package:ecommerce_app/models/ProductModel.dart';
-import 'package:ecommerce_app/pages/Product/ProductDetails.dart';
+import 'package:ecommerce_app/pages/Product/ProductDetailsPage.dart';
 import 'package:ecommerce_app/services/ApiConfig.dart';
 import 'package:ecommerce_app/utils/MyCaculator.dart';
 import 'package:ecommerce_app/utils/MyFormat.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductModel product;
@@ -15,13 +17,13 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => ProductDetailsPage(
-                  productId: product.productId,
-                )), // Đổi thành trang chi tiết sản phẩm nếu cần
-      ),
+      onTap: () {
+        Get.to(
+          () => ProductDetailsPage(
+            productId: product.productId,
+          ),
+        );
+      },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         elevation: 4,
@@ -40,8 +42,7 @@ class ProductCard extends StatelessWidget {
                           errorBuilder: (context, error, stackTrace) =>
                               const Center(child: Icon(Icons.image, size: 50)),
                         )
-                      : const Icon(Icons.image,
-                          size: 50), // Hiển thị icon nếu không có ảnh
+                      : const Icon(Icons.image, size: 50),
                 ),
               ),
             ),

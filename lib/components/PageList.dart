@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class PaginatedListView extends StatefulWidget {
-  final int pageCount; // Tổng số trang
-  final int currentPage; // Trang hiện tại
-  final Function(int) onPageChanged; // Callback khi người dùng chọn trang mới
+  final int pageCount;
+  final int currentPage;
+  final Function(int) onPageChanged;
 
   const PaginatedListView({
     super.key,
@@ -17,7 +17,6 @@ class PaginatedListView extends StatefulWidget {
 }
 
 class _PaginatedListViewState extends State<PaginatedListView> {
-  // Xử lý khi chọn trang
   void _onPageSelected(int page) {
     if (page >= 1 && page <= widget.pageCount) {
       widget.onPageChanged(page);
@@ -29,18 +28,13 @@ class _PaginatedListViewState extends State<PaginatedListView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        // Nút chuyển về trang trước
         _buildSquareButton(
           text: '<',
           onPressed: widget.currentPage > 1
               ? () => _onPageSelected(widget.currentPage - 1)
               : null,
         ),
-
-        // Hiển thị danh sách nút trang
         ..._buildPageButtons(),
-
-        // Nút chuyển sang trang tiếp theo
         _buildSquareButton(
           text: '>',
           onPressed: widget.currentPage < widget.pageCount
@@ -51,11 +45,9 @@ class _PaginatedListViewState extends State<PaginatedListView> {
     );
   }
 
-  // Hàm xây dựng danh sách các nút trang
   List<Widget> _buildPageButtons() {
     List<Widget> buttons = [];
     if (widget.pageCount <= 8) {
-      // Hiển thị tất cả các trang nếu số trang <= 8
       for (int i = 1; i <= widget.pageCount; i++) {
         buttons.add(
           Padding(
@@ -69,7 +61,6 @@ class _PaginatedListViewState extends State<PaginatedListView> {
         );
       }
     } else {
-      // Nếu có nhiều hơn 8 trang, hiển thị 3 trang đầu, 3 trang cuối và "..."
       buttons.add(_buildSquareButton(
         text: '1',
         isSelected: 1 == widget.currentPage,
@@ -119,7 +110,6 @@ class _PaginatedListViewState extends State<PaginatedListView> {
     return buttons;
   }
 
-  // Hàm tạo button hình vuông
   Widget _buildSquareButton({
     required String text,
     bool isSelected = false,
@@ -133,9 +123,9 @@ class _PaginatedListViewState extends State<PaginatedListView> {
         style: ElevatedButton.styleFrom(
           backgroundColor: isSelected ? Colors.orange : Colors.blue,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(0), // Không bo góc
+            borderRadius: BorderRadius.circular(0),
           ),
-          padding: EdgeInsets.zero, // Loại bỏ padding mặc định
+          padding: EdgeInsets.zero,
         ),
         child: Text(
           text,

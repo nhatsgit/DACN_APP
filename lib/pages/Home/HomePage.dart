@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ecommerce_app/controllers/HomeController.dart';
 import 'package:ecommerce_app/components/custom_app_bar.dart';
-import 'package:ecommerce_app/components/Products/ListCategory.dart';
-import 'package:ecommerce_app/components/Products/ListProduct.dart';
-import 'package:ecommerce_app/components/Products/SliderProduct.dart';
+import 'package:ecommerce_app/components/Products/CategoryList.dart';
+import 'package:ecommerce_app/components/Products/ProductList.dart';
+import 'package:ecommerce_app/components/Products/ProductSlider.dart';
 
 class HomePage extends StatelessWidget {
   final HomeController homeController = Get.put(HomeController());

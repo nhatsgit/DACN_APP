@@ -26,11 +26,10 @@ class ListProduct extends StatelessWidget {
               mainAxisSpacing: 16,
               childAspectRatio: 0.8,
             ),
-            itemCount: products.length, // Đếm số lượng sản phẩm
+            itemCount: products.length,
             itemBuilder: (context, index) {
               final product = products[index];
-              return ProductCard(
-                  product: product, index: index); // Gọi widget ProductCard
+              return ProductCard(product: product, index: index);
             },
           ),
         )

@@ -1,5 +1,5 @@
 import 'package:ecommerce_app/models/CategoryModel.dart';
-import 'package:ecommerce_app/pages/Product/ProductDetails.dart';
+import 'package:ecommerce_app/pages/Product/ProductDetailsPage.dart';
 import 'package:ecommerce_app/services/ApiConfig.dart';
 import 'package:flutter/material.dart';
 

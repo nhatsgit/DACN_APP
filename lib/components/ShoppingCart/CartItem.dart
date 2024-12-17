@@ -1,8 +1,10 @@
 import 'package:ecommerce_app/models/ShoppingCartModel.dart';
+import 'package:ecommerce_app/pages/Product/ProductDetailsPage.dart';
 import 'package:ecommerce_app/services/ApiConfig.dart';
 import 'package:ecommerce_app/utils/MyCaculator.dart';
 import 'package:ecommerce_app/utils/MyFormat.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CartItem extends StatefulWidget {
   final CartItemModel cartItem;
@@ -29,11 +31,20 @@ class _CartItemWidgetState extends State<CartItem> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.network(
-              '${ApiConfig.baseUrl}${widget.cartItem.product.anhDaiDien}',
-              width: 100,
-              height: 100,
-              fit: BoxFit.cover,
+            GestureDetector(
+              onTap: () {
+                Get.to(
+                  () => ProductDetailsPage(
+                    productId: widget.cartItem.product.productId,
+                  ),
+                );
+              },
+              child: Image.network(
+                '${ApiConfig.baseUrl}${widget.cartItem.product.anhDaiDien}',
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
+              ),
             ),
             Text(
               widget.cartItem.product.tenSp ?? "Ten sp",

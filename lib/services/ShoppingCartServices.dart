@@ -23,27 +23,20 @@ class ShoppingCartService {
     }
   }
 
-  Future<List<ProductModel>> fetchSlider() async {
-    final endpoint = 'Products/sliderBar';
-    final response = await _customHttpClient.get(endpoint);
+  Future<String> AddToCart(int productId, int quantity) async {
+    final endpoint = 'ShoppingCart/addToCart';
+    final body = {
+      'productId': productId,
+      'quantity': quantity,
+    };
+
+    final response = await _customHttpClient.post(endpoint, body);
 
     if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      return data.map((jsonItem) => ProductModel.fromJson(jsonItem)).toList();
+      final data = json.decode(response.body);
+      return data['message'];
     } else {
-      throw Exception('Failed to load products');
-    }
-  }
-
-  Future<ProductModel> fetchProductById(int id) async {
-    final endpoint = 'Products/$id'; // Ghép id vào URL
-    final response = await _customHttpClient.get(endpoint);
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body); // Parse JSON response
-      return ProductModel.fromJson(data); // Chuyển JSON thành ProductModel
-    } else {
-      throw Exception('Failed to load product with ID $id');
+      throw Exception('Failed to addtocart: ${response.statusCode}');
     }
   }
 }
