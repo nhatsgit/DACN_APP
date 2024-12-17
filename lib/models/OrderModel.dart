@@ -36,12 +36,12 @@ class OrderModel {
   final DateTime orderDate;
   final double totalPrice;
   final String shippingAddress;
-  final String notes;
+  final String? notes;
   final List<OrderDetailModel> orderDetails;
-  final OrderStatusModel orderStatus;
-  final PaymentModel payment;
+  final OrderStatusModel? orderStatus;
+  final PaymentModel? payment;
   final UserInfoModel user;
-  final VoucherModel voucher;
+  final VoucherModel? voucher;
 
   OrderModel({
     required this.orderId,
@@ -66,10 +66,16 @@ class OrderModel {
       orderDetails: (json['orderDetails'] as List<dynamic>)
           .map((e) => OrderDetailModel.fromJson(e))
           .toList(),
-      orderStatus: OrderStatusModel.fromJson(json['orderStatus']),
-      payment: PaymentModel.fromJson(json['payment']),
+      orderStatus: json['orderStatus'] != null
+          ? OrderStatusModel.fromJson(json['orderStatus'])
+          : null,
+      payment: json['payment'] != null
+          ? PaymentModel.fromJson(json['payment'])
+          : null,
       user: UserInfoModel.fromJson(json['user']),
-      voucher: VoucherModel.fromJson(json['voucher']),
+      voucher: json['voucher'] != null
+          ? VoucherModel.fromJson(json['voucher'])
+          : null,
     );
   }
 }

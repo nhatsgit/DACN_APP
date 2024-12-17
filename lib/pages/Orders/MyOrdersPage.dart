@@ -1,8 +1,8 @@
 import 'package:ecommerce_app/components/Order/Order.dart';
+import 'package:ecommerce_app/components/PageList.dart';
 import 'package:ecommerce_app/components/custom_app_bar.dart';
 import 'package:ecommerce_app/controllers/MyOrdersController.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 
 class MyOrdersPage extends StatefulWidget {
@@ -64,27 +64,13 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                           );
                         },
                       ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical:
-                                      8), // Khoảng cách từ văn bản đến viền
-                              decoration: BoxDecoration(
-                                color: Colors.blue, // Màu nền của nút
-                                borderRadius: BorderRadius.zero, // Góc vuông
-                              ),
-                              child: Text(
-                                '<',
-                                style: TextStyle(
-                                  color: Colors.white, // Màu chữ
-                                  fontSize: 16,
-                                ),
-                              ),
-                            )
-                          ])
+                      PaginatedListView(
+                        pageCount: orders.pageCount, // Tổng số trang
+                        currentPage: orders.pageNumber, // Trang hiện tại
+                        onPageChanged: (page) {
+                          controller.fetchMyOrders(page);
+                        },
+                      ),
                     ],
                   );
                 }),

@@ -48,7 +48,7 @@ class Order extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                order.orderStatus.tenTrangThai ?? "Lỗi",
+                order.orderStatus?.tenTrangThai ?? "Lỗi",
                 style: const TextStyle(color: Colors.red, fontSize: 15),
               )
             ],

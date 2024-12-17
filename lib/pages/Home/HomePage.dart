@@ -60,13 +60,6 @@ class HomePage extends StatelessWidget {
             }),
             const SizedBox(height: 20),
 
-            const Text("Gợi ý hôm nay",
-                style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold)),
-            const SizedBox(height: 20),
-
             // ListProduct with GetX
             Obx(() {
               if (homeController.isLoadingSuggestions.value) {
@@ -77,8 +70,6 @@ class HomePage extends StatelessWidget {
                 return ListProduct(products: homeController.productSuggestions);
               }
             }),
-            const SizedBox(height: 20),
-            const Text("mycarts"),
           ],
         ),
       ),

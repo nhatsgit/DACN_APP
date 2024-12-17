@@ -9,8 +9,8 @@ class OrderService {
 
   OrderService(this._customHttpClient);
 
-  Future<OrderResponse> fetchMyOrders() async {
-    final endpoint = 'Orders';
+  Future<OrderResponse> fetchMyOrders(int pageNumber) async {
+    final endpoint = 'Orders?pageNumber=$pageNumber';
     final response = await _customHttpClient.get(endpoint);
     if (response.statusCode == 200) {
       final dynamic data = json.decode(response.body);

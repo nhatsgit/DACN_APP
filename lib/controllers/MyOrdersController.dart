@@ -13,18 +13,17 @@ class MyOrdersController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchMyOrders();
+    fetchMyOrders(1);
   }
 
-  Future<void> fetchMyOrders() async {
+  Future<void> fetchMyOrders(int pageNumber) async {
     try {
       isLoading.value = true;
       final result =
           await OrderService(CustomHttpClient(http.Client(), Get.context!))
-              .fetchMyOrders();
+              .fetchMyOrders(pageNumber);
 
       orderByPage.value = result;
-      print("success${result.totalItemCount}");
     } catch (e) {
       print('Error fetching orders: $e');
       Get.snackbar("Error", "Failed to load orders: $e");

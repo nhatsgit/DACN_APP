@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:ecommerce_app/pages/Auth/login.dart';
-import 'package:ecommerce_app/pages/Home/home.dart';
+import 'package:ecommerce_app/pages/Home/HomePage.dart';
 import 'package:ecommerce_app/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,9 +25,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/', // Đường dẫn mặc định
+      initialRoute: '/',
       getPages: [
-        GetPage(name: '/', page: () => MainPage()), // Định nghĩa các route
+        GetPage(name: '/', page: () => MainPage()),
         GetPage(name: '/login', page: () => LoginPage()),
       ],
     );

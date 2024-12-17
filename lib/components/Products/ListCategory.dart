@@ -14,7 +14,7 @@ class ListCategory extends StatelessWidget {
       children: [
         const Text("Danh mục sản phẩm",
             style: TextStyle(
-                fontSize: 24, color: Colors.red, fontWeight: FontWeight.bold)),
+                fontSize: 24, color: Colors.blue, fontWeight: FontWeight.bold)),
         SizedBox(
           height: 300,
           child: PageView.builder(
@@ -53,7 +53,7 @@ class ListCategory extends StatelessWidget {
                                 child: categories[index].anhDaiDien != null &&
                                         categories[index].anhDaiDien.isNotEmpty
                                     ? Image.network(
-                                        '${ApiConfig.baseUrl}${categories[index].anhDaiDien}', // Thay thế URL phù hợp nếu cần
+                                        '${ApiConfig.baseUrl}${categories[index].anhDaiDien}',
                                         fit: BoxFit.fill,
                                         errorBuilder:
                                             (context, error, stackTrace) =>
@@ -71,7 +71,7 @@ class ListCategory extends StatelessWidget {
                             padding: const EdgeInsets.all(8.0),
                             child: Text(categories[index].tenLoai,
                                 style: TextStyle(
-                                    fontSize: 14, color: Colors.green)),
+                                    fontSize: 10, color: Colors.blue)),
                           ),
                         ],
                       ),

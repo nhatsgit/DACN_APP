@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/pages/Orders/my_orders.dart';
+import 'package:ecommerce_app/pages/Orders/MyOrdersPage.dart';
 import 'package:flutter/material.dart';
 
 class CheckoutPage extends StatefulWidget {

@@ -1,8 +1,8 @@
 import 'package:ecommerce_app/controllers/MainPageController.dart';
 import 'package:ecommerce_app/pages/Account/account.dart';
-import 'package:ecommerce_app/pages/Carts/my_carts.dart';
-import 'package:ecommerce_app/pages/Home/home.dart';
-import 'package:ecommerce_app/pages/Orders/my_orders.dart';
+import 'package:ecommerce_app/pages/Carts/MyCartsPage.dart';
+import 'package:ecommerce_app/pages/Home/HomePage.dart';
+import 'package:ecommerce_app/pages/Orders/MyOrdersPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

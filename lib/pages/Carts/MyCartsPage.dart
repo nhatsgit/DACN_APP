@@ -1,7 +1,6 @@
 import 'package:ecommerce_app/components/ShoppingCart/ShoppingCart.dart';
 import 'package:ecommerce_app/components/custom_app_bar.dart';
 import 'package:ecommerce_app/controllers/MyCartsController.dart';
-import 'package:ecommerce_app/pages/Shared/CheckoutPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +13,7 @@ class MyCartsPage extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          CustomAppBar(children: const [
+          const CustomAppBar(children: [
             Text(
               "Giỏ hàng",
               style: TextStyle(fontSize: 18, color: Colors.white),
