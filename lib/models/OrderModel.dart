@@ -3,24 +3,52 @@ import 'package:ecommerce_app/models/ProductModel.dart';
 import 'package:ecommerce_app/models/UserInfoModel.dart';
 import 'package:ecommerce_app/models/VoucherModel.dart';
 
+class OrderResponse {
+  final List<OrderModel> items;
+  final int pageNumber;
+  final int pageSize;
+  final int totalItemCount;
+  final int pageCount;
+
+  OrderResponse({
+    required this.items,
+    required this.pageNumber,
+    required this.pageSize,
+    required this.totalItemCount,
+    required this.pageCount,
+  });
+
+  factory OrderResponse.fromJson(Map<String, dynamic> json) {
+    return OrderResponse(
+      items: (json['items'] as List<dynamic>)
+          .map((e) => OrderModel.fromJson(e))
+          .toList(),
+      pageNumber: json['pageNumber'],
+      pageSize: json['pageSize'],
+      totalItemCount: json['totalItemCount'],
+      pageCount: json['pageCount'],
+    );
+  }
+}
+
 class OrderModel {
-  int orderId;
-  DateTime orderDate;
-  double totalPrice;
-  String? shippingAddress;
-  String? notes; // Cho phép null
-  List<OrderDetailModel> orderDetails;
-  OrderStatusModel orderStatus;
-  PaymentModel payment;
-  UserInfoModel user;
-  VoucherModel voucher;
+  final int orderId;
+  final DateTime orderDate;
+  final double totalPrice;
+  final String shippingAddress;
+  final String notes;
+  final List<OrderDetailModel> orderDetails;
+  final OrderStatusModel orderStatus;
+  final PaymentModel payment;
+  final UserInfoModel user;
+  final VoucherModel voucher;
 
   OrderModel({
     required this.orderId,
     required this.orderDate,
     required this.totalPrice,
     required this.shippingAddress,
-    this.notes, // Không bắt buộc
+    required this.notes,
     required this.orderDetails,
     required this.orderStatus,
     required this.payment,
@@ -32,11 +60,11 @@ class OrderModel {
     return OrderModel(
       orderId: json['orderId'],
       orderDate: DateTime.parse(json['orderDate']),
-      totalPrice: (json['totalPrice'] as num).toDouble(),
+      totalPrice: json['totalPrice'],
       shippingAddress: json['shippingAddress'],
-      notes: json['notes'], // Có thể null
-      orderDetails: (json['orderDetails'] as List)
-          .map((detail) => OrderDetailModel.fromJson(detail))
+      notes: json['notes'],
+      orderDetails: (json['orderDetails'] as List<dynamic>)
+          .map((e) => OrderDetailModel.fromJson(e))
           .toList(),
       orderStatus: OrderStatusModel.fromJson(json['orderStatus']),
       payment: PaymentModel.fromJson(json['payment']),
@@ -47,12 +75,12 @@ class OrderModel {
 }
 
 class OrderDetailModel {
-  int id;
-  int orderId;
-  int quantity;
-  double price; // Chuyển từ double sang int khi đọc từ JSON
-  bool? isReview;
-  ProductModel product;
+  final int id;
+  final int orderId;
+  final int quantity;
+  final double price;
+  final bool? isReview;
+  final ProductModel product;
 
   OrderDetailModel({
     required this.id,
@@ -68,7 +96,7 @@ class OrderDetailModel {
       id: json['id'],
       orderId: json['orderId'],
       quantity: json['quantity'],
-      price: (json['price'] as num).toDouble(), // Chuyển đổi kiểu
+      price: json['price'],
       isReview: json['isReview'],
       product: ProductModel.fromJson(json['product']),
     );
@@ -76,8 +104,8 @@ class OrderDetailModel {
 }
 
 class OrderStatusModel {
-  int orderStatusId;
-  String? tenTrangThai;
+  final int orderStatusId;
+  final String tenTrangThai;
 
   OrderStatusModel({
     required this.orderStatusId,

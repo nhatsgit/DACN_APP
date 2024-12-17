@@ -1,14 +1,14 @@
 class VoucherModel {
-  int voucherId;
-  String? voucherCode;
-  int phanTramGiam;
-  DateTime? ngayHetHan;
-  int soLuongCon;
-  int voucherCategoryId;
-  double? giamToiDa;
-  double? donToiThieu;
-  int? shopId;
-  DateTime? ngayBatDau;
+  final int voucherId;
+  final String voucherCode;
+  final int phanTramGiam;
+  final DateTime ngayHetHan;
+  final int soLuongCon;
+  final int voucherCategoryId;
+  final double? giamToiDa;
+  final double? donToiThieu;
+  final int? shopId;
+  final DateTime? ngayBatDau;
 
   VoucherModel({
     required this.voucherId,
@@ -17,10 +17,10 @@ class VoucherModel {
     required this.ngayHetHan,
     required this.soLuongCon,
     required this.voucherCategoryId,
-    this.giamToiDa,
+    required this.giamToiDa,
     required this.donToiThieu,
     this.shopId,
-    required this.ngayBatDau,
+    this.ngayBatDau,
   });
 
   factory VoucherModel.fromJson(Map<String, dynamic> json) {
@@ -34,7 +34,9 @@ class VoucherModel {
       giamToiDa: json['giamToiDa'],
       donToiThieu: json['donToiThieu'],
       shopId: json['shopId'],
-      ngayBatDau: DateTime.parse(json['ngayBatDau']),
+      ngayBatDau: json['ngayBatDau'] != null
+          ? DateTime.parse(json['ngayBatDau'])
+          : null,
     );
   }
 }

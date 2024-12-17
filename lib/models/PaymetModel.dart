@@ -1,6 +1,6 @@
 class PaymentModel {
-  int paymentId;
-  String? tenLoai;
+  final int paymentId;
+  final String tenLoai;
 
   PaymentModel({
     required this.paymentId,

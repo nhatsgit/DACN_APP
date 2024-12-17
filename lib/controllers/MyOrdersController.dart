@@ -6,9 +6,9 @@ import 'package:ecommerce_app/services/OrderServices.dart';
 import 'package:http/http.dart' as http;
 
 class MyOrdersController extends GetxController {
-  final ordersByPage = Rx<PageListModel<OrderModel>?>(null);
   final isLoading = true.obs;
-  final orders = <OrderModel>[].obs;
+  final orderByPage =
+      Rxn<OrderResponse>(); // Chỉ chứa một OrderResponse duy nhất
 
   @override
   void onInit() {
@@ -23,10 +23,11 @@ class MyOrdersController extends GetxController {
           await OrderService(CustomHttpClient(http.Client(), Get.context!))
               .fetchMyOrders();
 
-      orders.value = result.items;
+      orderByPage.value = result;
+      print("success${result.totalItemCount}");
     } catch (e) {
       print('Error fetching orders: $e');
-      ordersByPage.value = null;
+      Get.snackbar("Error", "Failed to load orders: $e");
     } finally {
       isLoading.value = false;
     }

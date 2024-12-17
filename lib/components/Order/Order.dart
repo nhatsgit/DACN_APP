@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/components/Order/OrderDetail.dart';
 import 'package:ecommerce_app/models/OrderModel.dart';
 import 'package:ecommerce_app/pages/Product/ProductDetails.dart';
+import 'package:ecommerce_app/utils/MyFormat.dart';
 import 'package:flutter/material.dart';
 
 class Order extends StatelessWidget {
@@ -21,30 +22,40 @@ class Order extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Ngày đặt: ${order.orderDate}',
+            'Ngày đặt: ${MyFormat.formatDateTime(order.orderDate)}',
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
-          OrderDetail(
-            orderDetail: order.orderDetails[0],
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: order.orderDetails.length,
+            itemBuilder: (context, index) {
+              return OrderDetail(orderDetail: order.orderDetails[index]);
+            },
           ),
           const Divider(),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                'Thành tiền: ${MyFormat.formatCurrency(order.totalPrice)}',
+                style: const TextStyle(color: Colors.blue, fontSize: 15),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
                 order.orderStatus.tenTrangThai ?? "Lỗi",
-                style: const TextStyle(color: Colors.red, fontSize: 18),
-              ),
-              Text(
-                'Thành tiền: ${order.totalPrice}',
-                style: const TextStyle(color: Colors.red, fontSize: 20),
-              ),
+                style: const TextStyle(color: Colors.red, fontSize: 15),
+              )
             ],
           ),
           const SizedBox(height: 16),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               ElevatedButton(
                 onPressed: () {
@@ -57,7 +68,7 @@ class Order extends StatelessWidget {
                     ),
                   );
                 },
-                child: Text("Xem chi tiết"),
+                child: const Text("Xem chi tiết"),
               ),
             ],
           )

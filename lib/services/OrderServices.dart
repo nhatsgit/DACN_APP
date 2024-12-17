@@ -9,16 +9,12 @@ class OrderService {
 
   OrderService(this._customHttpClient);
 
-  Future<PageListModel<OrderModel>> fetchMyOrders() async {
+  Future<OrderResponse> fetchMyOrders() async {
     final endpoint = 'Orders';
     final response = await _customHttpClient.get(endpoint);
     if (response.statusCode == 200) {
       final dynamic data = json.decode(response.body);
-
-      return PageListModel<OrderModel>.fromJson(
-        data,
-        (json) => OrderModel.fromJson(json),
-      );
+      return OrderResponse.fromJson(data);
     } else {
       throw Exception('Failed to load orders');
     }

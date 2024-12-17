@@ -1,10 +1,10 @@
 class UserInfoModel {
-  final String? fullName;
-  final String? address;
-  final String? avatar;
-  final String? phoneNumber;
-  final String? email;
-  final String? userName;
+  final String fullName;
+  final String address;
+  final String avatar;
+  final String phoneNumber;
+  final String email;
+  final String userName;
 
   UserInfoModel({
     required this.fullName,
@@ -15,7 +15,6 @@ class UserInfoModel {
     required this.userName,
   });
 
-  // Factory constructor để tạo đối tượng từ JSON
   factory UserInfoModel.fromJson(Map<String, dynamic> json) {
     return UserInfoModel(
       fullName: json['fullName'],
