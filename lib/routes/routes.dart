@@ -2,7 +2,7 @@ import 'package:ecommerce_app/pages/Auth/login.dart';
 import 'package:ecommerce_app/pages/main_page.dart';
 import 'package:flutter/material.dart';
 
-import '../pages/Carts/MyCartsPage.dart';
+import '../pages/ShoppingCarts/MyCartsPage.dart';
 import '../pages/Orders/MyOrdersPage.dart';
 
 class AppRoutes {

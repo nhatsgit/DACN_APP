@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 class MyCartsPage extends StatelessWidget {
   MyCartsPage({super.key});
-  final ShoppingCartController controller = Get.put(ShoppingCartController());
+  final MyCartsController controller = Get.put(MyCartsController());
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class MyCartsPage extends StatelessWidget {
               }
 
               if (controller.shoppingCarts.isEmpty) {
-                return const Center(child: Text("Không tìm thấy sản phẩm."));
+                return const Center(child: Text("Giỏ hàng trống."));
               }
 
               return ListView.builder(

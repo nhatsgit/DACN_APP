@@ -1,8 +1,6 @@
 import 'package:ecommerce_app/components/Products/ProductImageSlider.dart';
 import 'package:ecommerce_app/components/Products/ProductReviewsList.dart';
-import 'package:ecommerce_app/controllers/MyCartsController.dart';
 import 'package:ecommerce_app/controllers/ProductDetailsController.dart';
-import 'package:ecommerce_app/pages/Carts/MyCartsPage.dart';
 import 'package:ecommerce_app/services/ApiConfig.dart';
 import 'package:ecommerce_app/utils/MyCaculator.dart';
 import 'package:ecommerce_app/utils/MyFormat.dart';
@@ -38,7 +36,9 @@ class ProductDetailsPage extends StatelessWidget {
         }
 
         if (controller.product.value == null) {
-          return const Center(child: Text("Không tìm thấy sản phẩm."));
+          return const Center(
+              child: Text(
+                  "Không tìm thấy sản phẩm.Hãy kiểm tra lại kết nối mạng"));
         }
 
         final product = controller.product.value!;
@@ -201,8 +201,6 @@ class ProductDetailsPage extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Get.delete<ShoppingCartController>();
-
                       controller.addToCart();
                     },
                     style: ElevatedButton.styleFrom(

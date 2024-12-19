@@ -1,7 +1,9 @@
+import 'package:ecommerce_app/controllers/MainPageController.dart';
+import 'package:ecommerce_app/controllers/MyCartsController.dart';
 import 'package:ecommerce_app/models/ProductImageModel.dart';
 import 'package:ecommerce_app/models/ProductModel.dart';
 import 'package:ecommerce_app/models/ReviewsModel.dart';
-import 'package:ecommerce_app/pages/Carts/MyCartsPage.dart';
+import 'package:ecommerce_app/pages/main_page.dart';
 import 'package:ecommerce_app/services/ProductServices.dart';
 import 'package:ecommerce_app/services/CustomHttpClient.dart';
 import 'package:ecommerce_app/services/ShoppingCartServices.dart';
@@ -36,7 +38,7 @@ class ProductDetailsController extends GetxController {
     try {
       final message = await ShoppingCartService(
               CustomHttpClient(http.Client(), Get.context!))
-          .AddToCart(productId, quantity.value);
+          .addToCart(productId, quantity.value);
 
       Get.snackbar(
         "Thành công",
@@ -45,8 +47,10 @@ class ProductDetailsController extends GetxController {
         backgroundColor: Colors.green,
         colorText: Colors.white,
       );
-
-      Get.to(() => MyCartsPage());
+      Get.delete<MyCartsController>();
+      Get.to(() => MainPage());
+      final mainPageController = Get.find<MainPageController>();
+      mainPageController.updateIndex(2);
     } catch (e) {
       Get.snackbar(
         "Lỗi",
@@ -76,7 +80,6 @@ class ProductDetailsController extends GetxController {
       reviewsList.value = fetchReviews;
     } catch (e) {
       errorMessage.value = 'Lỗi khi lấy sản phẩm: $e';
-      print('Lỗi khi lấy sản phẩm: $e');
     } finally {
       isLoading.value = false;
     }

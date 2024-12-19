@@ -20,16 +20,41 @@ class CustomHttpClient {
     return _handleResponse(response);
   }
 
-  Future<http.Response> post(String endpoint, Map<String, dynamic> body) async {
-    final token = await _getJwt() ?? "cac";
+  Future<http.Response> post(
+      String endpoint, Map<String, dynamic>? body) async {
+    final token = await _getJwt();
     final url = Uri.parse('${ApiConfig.baseAPIUrl}$endpoint');
     final response = await _client.post(
+      url,
+      body: body != null ? json.encode(body) : null,
+      headers: {
+        'Content-Type': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',
+      },
+    );
+    return _handleResponse(response);
+  }
+
+  Future<http.Response> put(String endpoint, Map<String, dynamic> body) async {
+    final token = await _getJwt();
+    final url = Uri.parse('${ApiConfig.baseAPIUrl}$endpoint');
+    final response = await _client.put(
       url,
       body: json.encode(body),
       headers: {
         'Content-Type': 'application/json',
         if (token != null) 'Authorization': 'Bearer $token',
       },
+    );
+    return _handleResponse(response);
+  }
+
+  Future<http.Response> delete(String endpoint) async {
+    final token = await _getJwt();
+    final url = Uri.parse('${ApiConfig.baseAPIUrl}$endpoint');
+    final response = await _client.delete(
+      url,
+      headers: token != null ? {'Authorization': 'Bearer $token'} : {},
     );
     return _handleResponse(response);
   }
