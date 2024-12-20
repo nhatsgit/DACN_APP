@@ -1,156 +1,144 @@
-import 'package:ecommerce_app/models/ProductModel.dart';
-import 'package:ecommerce_app/pages/ShoppingCarts/MyCartsPage.dart';
-import 'package:ecommerce_app/services/ApiConfig.dart';
-import 'package:ecommerce_app/services/CustomHttpClient.dart';
-import 'package:ecommerce_app/services/ProductServices.dart';
-import 'package:ecommerce_app/utils/MyCaculator.dart';
+import 'package:ecommerce_app/components/CustomRichText.dart';
+import 'package:ecommerce_app/components/Order/Order.dart';
+import 'package:ecommerce_app/components/Order/OrderDetail.dart';
+import 'package:ecommerce_app/components/custom_app_bar.dart';
+import 'package:ecommerce_app/controllers/OrderDetailsController.dart';
 import 'package:ecommerce_app/utils/MyFormat.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
 
-class ProductDetailsPage extends StatefulWidget {
-  final int productId; // Nhận productId từ tham số
+class OrderDetailsPage extends StatelessWidget {
+  final int orderId;
 
-  const ProductDetailsPage({super.key, required this.productId});
-
-  @override
-  State<ProductDetailsPage> createState() => _ProductDetailsPageState();
-}
-
-class _ProductDetailsPageState extends State<ProductDetailsPage> {
-  late Future<ProductModel> _productFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _productFuture = _fetchProductDetails(); // Gọi trực tiếp
-  }
-
-  Future<ProductModel> _fetchProductDetails() async {
-    try {
-      final product =
-          await ProductService(CustomHttpClient(http.Client(), context))
-              .fetchProductById(widget.productId);
-      return product;
-    } catch (error) {
-      print('Lỗi khi fetch sản phẩm: $error');
-      throw error;
-    }
-  }
+  OrderDetailsPage({super.key, required this.orderId});
 
   @override
   Widget build(BuildContext context) {
+    Get.delete<OrderDetailsController>();
+
+    final OrderDetailsController controller =
+        Get.put(OrderDetailsController(orderId), permanent: false);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: const Text("Chi tiết sản phẩm"),
+        title: const Text(
+          "Chi tiết đơn hàng",
+          style: TextStyle(color: Colors.white),
+        ),
       ),
-      body: FutureBuilder<ProductModel>(
-        future: _productFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text("Lỗi: ${snapshot.error}"));
-          } else if (!snapshot.hasData) {
-            return const Center(child: Text("Không tìm thấy sản phẩm."));
-          }
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-          final product = snapshot.data!;
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
+        final order = controller.order.value;
+
+        if (order == null) {
+          return const Center(child: Text("Không tìm thấy đơn hàng."));
+        }
+
+        return Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: product.anhDaiDien != null
-                          ? Image.network(
-                              '${ApiConfig.baseUrl}${product.anhDaiDien}',
-                              fit: BoxFit.cover,
-                              width: 200,
-                              height: 200,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  const Center(
-                                      child: Icon(Icons.image, size: 200)),
-                            )
-                          : const Center(child: Icon(Icons.image, size: 50)),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: order.orderDetails.length,
+                      itemBuilder: (context, index) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            OrderDetail(orderDetail: order.orderDetails[index]),
+                            ElevatedButton(
+                              child: const Text("Đánh giá"),
+                              onPressed: () {},
+                            ),
+                          ],
+                        );
+                      },
                     ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: product.anhDaiDien != null
-                          ? Image.network(
-                              '${ApiConfig.baseUrl}${product.anhDaiDien}',
-                              fit: BoxFit.cover,
-                              width: 200,
-                              height: 200,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  const Center(
-                                      child: Icon(Icons.image, size: 200)),
-                            )
-                          : const Center(child: Icon(Icons.image, size: 50)),
+                    SizedBox(
+                      height: 20,
                     ),
+                    CustomRichText(
+                        text1: "Ngày đặt: ",
+                        text2: MyFormat.formatDateTime(order.orderDate),
+                        fontSize: 22),
+                    CustomRichText(
+                        text1: "Địa chỉ giao hàng: ",
+                        text2: order.shippingAddress,
+                        fontSize: 22),
+                    CustomRichText(
+                        text1: "Phương thức thanh toán: ",
+                        text2: order.payment?.tenLoai ?? "Trực tiếp",
+                        fontSize: 22),
+                    CustomRichText(
+                        text1: "Tên người đặt: ",
+                        text2: order.user.fullName,
+                        fontSize: 22),
+                    CustomRichText(
+                        text1: "Ghi chú: ",
+                        text2: order.notes ?? order.user.phoneNumber,
+                        fontSize: 22),
                   ],
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  product.tenSp ?? "Tên sản phẩm",
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+              ),
+            ),
+            Container(
+              color: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Tổng đơn hàng: ${MyFormat.formatCurrency(order.totalPrice)}",
+                        style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue),
+                      ),
+                      Text(
+                        "Trạng thái: ${order.orderStatus?.tenTrangThai}",
+                        style: const TextStyle(fontSize: 14, color: Colors.red),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "Giá:${MyFormat.formatCurrency(MyCaculator.calculateDiscountedPrice(product.giaBan.toDouble(), product.phanTramGiam.toDouble()))}",
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: Colors.green,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  "Giảm giá: ${product.phanTramGiam ?? 0}%",
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.red,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "Mã sản phẩm: ${product.productId}",
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Container(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
+                  ElevatedButton(
                     onPressed: () {
-                      // Xử lý thêm vào giỏ hàng
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyCartsPage(),
-                        ),
+                      Get.snackbar(
+                        "Hủy đơn hàng",
+                        "Đơn hàng của bạn đã được hủy.",
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: Colors.red,
+                        colorText: Colors.white,
                       );
                     },
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.white, // Text color
-                      backgroundColor: Colors.orange, // Background color
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.red,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 12),
                     ),
-                    child: const Text('Thêm vào giỏ hàng'),
+                    child: const Text(
+                      "Hủy Đơn",
+                      style: TextStyle(fontSize: 16),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          );
-        },
-      ),
+          ],
+        );
+      }),
     );
   }
 }

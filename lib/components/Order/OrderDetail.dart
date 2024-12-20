@@ -10,35 +10,31 @@ class OrderDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Container(
+          width: 100,
+          height: 100,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(
+                  '${ApiConfig.baseUrl}${orderDetail.product.anhDaiDien}'), // Cập nhật URL hợp lệ
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 50,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                      '${ApiConfig.baseUrl}${orderDetail.product.anhDaiDien}'), // Cập nhật URL hợp lệ
-                  fit: BoxFit.cover,
-                ),
-              ),
+            Text("${orderDetail.product.tenSp}"),
+            Text(
+              "${MyFormat.formatCurrency(orderDetail.price)}",
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            SizedBox(
-              width: 50,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text("${orderDetail.product.tenSp}"),
-                Text(
-                  "${MyFormat.formatCurrency(orderDetail.price)}",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text('x${orderDetail.quantity}'),
-              ],
-            ),
+            Text('x${orderDetail.quantity}'),
           ],
         ),
       ],

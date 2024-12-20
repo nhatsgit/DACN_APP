@@ -1,8 +1,10 @@
 import 'package:ecommerce_app/components/Order/OrderDetail.dart';
 import 'package:ecommerce_app/models/OrderModel.dart';
+import 'package:ecommerce_app/pages/Orders/OrderDetailsPage.dart';
 import 'package:ecommerce_app/pages/Product/ProductDetailsPage.dart';
 import 'package:ecommerce_app/utils/MyFormat.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Order extends StatelessWidget {
   final OrderModel order;
@@ -59,14 +61,7 @@ class Order extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProductDetailsPage(
-                        productId: 1,
-                      ),
-                    ),
-                  );
+                  Get.to(() => OrderDetailsPage(orderId: order.orderId));
                 },
                 child: const Text("Xem chi tiết"),
               ),

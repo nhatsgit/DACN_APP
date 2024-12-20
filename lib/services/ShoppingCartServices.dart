@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:ecommerce_app/models/OrderModel.dart';
 import 'package:ecommerce_app/models/ShoppingCartModel.dart';
+import 'package:ecommerce_app/models/VoucherModel.dart';
 import 'package:ecommerce_app/services/CustomHttpClient.dart';
 
 class ShoppingCartService {
@@ -22,6 +24,19 @@ class ShoppingCartService {
     }
   }
 
+  Future<List<VoucherModel>> fetchVoucherByShopId(int shopId) async {
+    final endpoint = 'Vouchers?shopId=${shopId}';
+    final response = await _customHttpClient.get(endpoint);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+
+      return data.map((jsonItem) => VoucherModel.fromJson(jsonItem)).toList();
+    } else {
+      throw Exception('Failed to load vouchers');
+    }
+  }
+
   Future<String> addToCart(int productId, int quantity) async {
     final endpoint = 'ShoppingCart/addToCart';
     final body = {
@@ -39,20 +54,22 @@ class ShoppingCartService {
     }
   }
 
-  Future<String> checkOut(int voucherId, int paymentId, String shippingAddress,
+  Future<int> checkOut(int voucherId, int paymentId, String shippingAddress,
       String note, int shoppingCartId) async {
-    final endpoint = 'ShoppingCart/addToCart?shoppingCartId=${shoppingCartId}';
+    final endpoint = 'ShoppingCart/checkOut?shoppingCartId=${shoppingCartId}';
     final body = {
       'voucherId': voucherId,
       'paymentId': paymentId,
-      'shippingAddress': voucherId,
-      'notes': paymentId,
+      'shippingAddress': shippingAddress,
+      'notes': note,
     };
 
     final response = await _customHttpClient.post(endpoint, body);
 
     if (response.statusCode == 200) {
-      return "Thanh cong";
+      final data = json.decode(response.body);
+      int orderId = data['orderId'];
+      return orderId;
     } else {
       throw Exception('Failed to checkout: ${response.statusCode}');
     }

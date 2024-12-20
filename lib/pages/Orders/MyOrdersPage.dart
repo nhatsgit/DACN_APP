@@ -21,7 +21,6 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
       body: Center(
         child: Column(
           children: [
-            // Custom App Bar
             CustomAppBar(
               children: [
                 Text(
@@ -31,11 +30,9 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                 Spacer(),
               ],
             ),
-
-            // Nội dung phần dưới
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.all(16), // Thêm padding
+                padding: EdgeInsets.all(16),
                 child: Obx(() {
                   if (controller.isLoading.value) {
                     return const CircularProgressIndicator();
@@ -50,10 +47,8 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                   return Column(
                     children: [
                       ListView.builder(
-                        shrinkWrap:
-                            true, // Giới hạn kích thước ListView trong Column
-                        physics:
-                            NeverScrollableScrollPhysics(), // Vô hiệu hóa cuộn độc lập
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemCount: orders.items.length,
                         itemBuilder: (context, index) {
                           final item = orders.items[index];

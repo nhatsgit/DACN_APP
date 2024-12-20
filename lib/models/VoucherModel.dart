@@ -4,7 +4,7 @@ class VoucherModel {
   final int phanTramGiam;
   final DateTime ngayHetHan;
   final int soLuongCon;
-  final int voucherCategoryId;
+  final int? voucherCategoryId;
   final double? giamToiDa;
   final double? donToiThieu;
   final int? shopId;

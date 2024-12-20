@@ -20,15 +20,15 @@ class OrderService {
     }
   }
 
-  Future<ProductModel> fetchProductById(int id) async {
-    final endpoint = 'Products/$id'; // Ghép id vào URL
+  Future<OrderModel> fetchOrderById(int id) async {
+    final endpoint = 'Orders/$id';
     final response = await _customHttpClient.get(endpoint);
 
     if (response.statusCode == 200) {
-      final data = json.decode(response.body); // Parse JSON response
-      return ProductModel.fromJson(data); // Chuyển JSON thành ProductModel
+      final data = json.decode(response.body);
+      return OrderModel.fromJson(data);
     } else {
-      throw Exception('Failed to load product with ID $id');
+      throw Exception('Failed to load orders with ID $id');
     }
   }
 }

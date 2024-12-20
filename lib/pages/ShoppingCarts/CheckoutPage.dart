@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/components/ShoppingCart/CheckOutItem.dart';
 import 'package:ecommerce_app/controllers/CheckOutController.dart';
 import 'package:ecommerce_app/pages/Orders/MyOrdersPage.dart';
+import 'package:ecommerce_app/utils/MyFormat.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -36,38 +37,42 @@ class CheckOutPage extends StatelessWidget {
                   );
                 }
                 return Column(
-                  children: shoppingCart.cartItems
-                      .map((cartItem) => CheckOutItem(
-                            cartItem: cartItem,
-                          ))
-                      .toList(),
+                  children: [
+                    Column(
+                      children: shoppingCart.cartItems
+                          .map((cartItem) => CheckOutItem(
+                                cartItem: cartItem,
+                              ))
+                          .toList(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Text(
+                              "Tổng đơn hàng: ${MyFormat.formatCurrency(shoppingCart.getTotalPrice())}",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 );
               },
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      "Tổng đơn hàng: 500 VND",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red),
-                    ),
-                  ),
-                ],
-              ),
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // TextField for Address
                   TextField(
                     onChanged: (value) => controller.address.value = value,
                     decoration: InputDecoration(
@@ -76,8 +81,6 @@ class CheckOutPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 16),
-
-                  // TextField for Note
                   TextField(
                     onChanged: (value) => controller.note.value = value,
                     decoration: InputDecoration(
@@ -86,8 +89,6 @@ class CheckOutPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 16),
-
-                  // Payment Method
                   Text(
                     'Phương thức thanh toán',
                     style: TextStyle(fontWeight: FontWeight.bold),

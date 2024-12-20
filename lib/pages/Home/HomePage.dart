@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/pages/Shared/SearchPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ecommerce_app/controllers/HomeController.dart';
@@ -8,11 +9,10 @@ import 'package:ecommerce_app/components/Products/ProductSlider.dart';
 
 class HomePage extends StatelessWidget {
   final HomeController homeController = Get.put(HomeController());
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _searchController = TextEditingController();
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -20,18 +20,30 @@ class HomePage extends StatelessWidget {
             CustomAppBar(
               children: [
                 Expanded(
-                    child: TextField(
-                        controller: _searchController,
-                        decoration: const InputDecoration(
-                          hintText: 'Tìm kiếm...',
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.zero,
-                              borderSide: BorderSide.none),
-                          filled: true,
-                          fillColor: Colors.white,
-                          prefixIcon: Icon(Icons.search, color: Colors.grey),
+                  child: ElevatedButton(
+                    onPressed: () => {Get.to(SearchPage())},
+                    style: ElevatedButton.styleFrom(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                      side: BorderSide(color: Colors.black),
+                    ),
+                    child: Row(
+                      children: const [
+                        Icon(Icons.search, color: Colors.black),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            'Tìm kiếm...',
+                            style: TextStyle(color: Colors.black),
+                          ),
                         ),
-                        style: const TextStyle(fontSize: 16)))
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 20),

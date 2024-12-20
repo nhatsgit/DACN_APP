@@ -6,10 +6,10 @@ import 'package:get/get.dart';
 
 class MyCartsPage extends StatelessWidget {
   MyCartsPage({super.key});
-  final MyCartsController controller = Get.put(MyCartsController());
 
   @override
   Widget build(BuildContext context) {
+    final MyCartsController controller = Get.put(MyCartsController());
     return Scaffold(
       body: Column(
         children: [
