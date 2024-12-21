@@ -17,14 +17,12 @@ class MyOrdersController extends GetxController {
   Future<void> fetchMyOrders(int pageNumber) async {
     try {
       isLoading.value = true;
-      final result =
-          await OrderService(CustomHttpClient(http.Client(), Get.context!))
-              .fetchMyOrders(pageNumber);
+      final result = await OrderService(CustomHttpClient(http.Client()))
+          .fetchMyOrders(pageNumber);
 
       orderByPage.value = result;
     } catch (e) {
-      print('Error fetching orders: $e');
-      Get.snackbar("Error", "Failed to load orders: $e");
+      Get.snackbar("Error", "Vui lòng đăng nhập");
     } finally {
       isLoading.value = false;
     }

@@ -19,8 +19,7 @@ class MyCartsController extends GetxController {
   Future<void> fetchShoppingCarts() async {
     try {
       isLoading.value = true;
-      final carts = await ShoppingCartService(
-              CustomHttpClient(http.Client(), Get.context!))
+      final carts = await ShoppingCartService(CustomHttpClient(http.Client()))
           .fetchMyShoppingCarts();
       shoppingCarts.assignAll(carts);
     } catch (e) {
@@ -32,8 +31,7 @@ class MyCartsController extends GetxController {
 
   Future<void> deleteCartItem(int cartItemId) async {
     try {
-      final message = await ShoppingCartService(
-              CustomHttpClient(http.Client(), Get.context!))
+      final message = await ShoppingCartService(CustomHttpClient(http.Client()))
           .deleteCartItemById(cartItemId);
       Get.snackbar(
         "${message}",

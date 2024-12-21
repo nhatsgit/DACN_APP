@@ -55,10 +55,12 @@ class OrderDetailsPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             OrderDetail(orderDetail: order.orderDetails[index]),
-                            ElevatedButton(
-                              child: const Text("Đánh giá"),
-                              onPressed: () {},
-                            ),
+                            if (order.orderStatus?.orderStatusId == 5 &&
+                                order.orderDetails[index].isReview != true)
+                              ElevatedButton(
+                                child: const Text("Đánh giá"),
+                                onPressed: () {},
+                              ),
                           ],
                         );
                       },
@@ -83,8 +85,18 @@ class OrderDetailsPage extends StatelessWidget {
                         text2: order.user.fullName,
                         fontSize: 22),
                     CustomRichText(
+                        text1: "Số điện thoại: ",
+                        text2: order.user.phoneNumber,
+                        fontSize: 22),
+                    CustomRichText(
                         text1: "Ghi chú: ",
                         text2: order.notes ?? order.user.phoneNumber,
+                        fontSize: 22),
+                    CustomRichText(
+                        text1: "Mã giảm giá: ",
+                        text2: order.voucher!.phanTramGiam > 0
+                            ? "Mã ${order.voucher?.voucherCode} Giảm:${order.voucher?.phanTramGiam}% ${order.voucher!.donToiThieu! > 0 ? 'Đơn tối thiểu:  ${MyFormat.formatCurrency(order.voucher!.donToiThieu ?? 0)}' : ' '} ${order.voucher!.giamToiDa! > 0 ? 'Giảm tối đa: ${MyFormat.formatCurrency(order.voucher!.giamToiDa ?? 0)}' : ' '}  "
+                            : 'Không có',
                         fontSize: 22),
                   ],
                 ),
@@ -107,7 +119,7 @@ class OrderDetailsPage extends StatelessWidget {
                             color: Colors.blue),
                       ),
                       Text(
-                        "Trạng thái: ${order.orderStatus?.tenTrangThai}",
+                        "${order.orderStatus?.tenTrangThai}",
                         style: const TextStyle(fontSize: 14, color: Colors.red),
                       ),
                     ],

@@ -1,6 +1,6 @@
 import 'package:ecommerce_app/components/ShoppingCart/CheckOutItem.dart';
+import 'package:ecommerce_app/components/ShoppingCart/VoucherModal.dart';
 import 'package:ecommerce_app/controllers/CheckOutController.dart';
-import 'package:ecommerce_app/pages/Orders/MyOrdersPage.dart';
 import 'package:ecommerce_app/utils/MyFormat.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,11 +9,6 @@ class CheckOutPage extends StatelessWidget {
   final int shoppingCartId;
 
   CheckOutPage({super.key, required this.shoppingCartId});
-  final List<Map<String, String>> discountCodes = [
-    {"code": "SALE10", "description": "Giảm 10% đơn hàng"},
-    {"code": "FREESHIP", "description": "Miễn phí vận chuyển"},
-    {"code": "BUY1GET1", "description": "Mua 1 tặng 1"},
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +27,7 @@ class CheckOutPage extends StatelessWidget {
               () {
                 final shoppingCart = controller.shoppingCart.value;
                 if (shoppingCart == null) {
-                  return Center(
+                  return const Center(
                     child: Text("Giỏ hàng đang trống hoặc đang tải..."),
                   );
                 }
@@ -53,12 +48,27 @@ class CheckOutPage extends StatelessWidget {
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Text(
-                              "Tổng đơn hàng: ${MyFormat.formatCurrency(shoppingCart.getTotalPrice())}",
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.red),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Tổng đơn hàng: ${MyFormat.formatCurrency(shoppingCart.getTotalPrice())}",
+                                  style: const TextStyle(
+                                      fontSize: 18, color: Colors.red),
+                                ),
+                                Text(
+                                  "Giảm giá đơn hàng: ${MyFormat.formatCurrency(controller.discountPrice.value)}",
+                                  style: const TextStyle(
+                                      fontSize: 18, color: Colors.red),
+                                ),
+                                Text(
+                                  "Tổng thanh toán: ${MyFormat.formatCurrency(shoppingCart.getTotalPrice() - controller.discountPrice.value)}",
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red),
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -96,19 +106,17 @@ class CheckOutPage extends StatelessWidget {
                   Obx(
                     () => Column(
                       children: [
-                        RadioListTile<String>(
-                          title: Text('Thanh toán online'),
-                          value: 'online',
-                          groupValue: controller.paymentMethod.value,
-                          onChanged: (value) =>
-                              controller.setPaymentMethod(value ?? 'online'),
+                        RadioListTile<int>(
+                          title: const Text('Thanh toán trực tiếp'),
+                          value: 1,
+                          groupValue: controller.paymentId.value,
+                          onChanged: (value) => controller.setPaymentMethod(1),
                         ),
-                        RadioListTile<String>(
-                          title: Text('Thanh toán trực tiếp'),
-                          value: 'cash',
-                          groupValue: controller.paymentMethod.value,
-                          onChanged: (value) =>
-                              controller.setPaymentMethod(value ?? 'cash'),
+                        RadioListTile<int>(
+                          title: const Text('Thanh toán online'),
+                          value: 2,
+                          groupValue: controller.paymentId.value,
+                          onChanged: (value) => controller.setPaymentMethod(2),
                         ),
                       ],
                     ),
@@ -121,27 +129,24 @@ class CheckOutPage extends StatelessWidget {
                         backgroundColor: Colors.blue,
                       ),
                       onPressed: () {
-                        showDialog(
+                        showModalBottomSheet(
                           context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text('Chọn mã giảm giá'),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: discountCodes.map((discount) {
-                                return ListTile(
-                                  title: Text(discount['code']!),
-                                  subtitle: Text(discount['description']!),
-                                  onTap: () {},
-                                );
-                              }).toList(),
-                            ),
+                          isScrollControlled: true,
+                          builder: (context) => VoucherModal(
+                            vouchers: controller.voucherList,
+                            totalPrice: controller.shoppingCart.value
+                                    ?.getTotalPrice() ??
+                                0,
+                            onVoucherSelected: (selectedVoucher) {
+                              controller.caculateDiscountPrice(selectedVoucher);
+                              Navigator.pop(context);
+                            },
                           ),
                         );
                       },
                       child: Text('Chọn mã giảm giá'),
                     ),
                   ),
-                  // Confirm Button
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(

@@ -20,8 +20,7 @@ class AccountController extends GetxController {
       isLoading.value = true;
       errorMessage.value = ''; // Xóa thông báo lỗi cũ
       final user =
-          await AuthServices(CustomHttpClient(http.Client(), Get.context!))
-              .getMyInfo();
+          await AuthServices(CustomHttpClient(http.Client())).getMyInfo();
       userInfo.value = user; // Cập nhật dữ liệu người dùng
     } catch (e) {
       errorMessage.value = 'Lỗi khi lấy thông tin: $e';

@@ -21,9 +21,8 @@ class OrderDetailsController extends GetxController {
   Future<void> _fetchOrderById() async {
     try {
       isLoading.value = true;
-      final fetchOrder =
-          await OrderService(CustomHttpClient(http.Client(), Get.context!))
-              .fetchOrderById(orderId);
+      final fetchOrder = await OrderService(CustomHttpClient(http.Client()))
+          .fetchOrderById(orderId);
       order.value = fetchOrder;
     } catch (e) {
       print("Lỗi ${e}");

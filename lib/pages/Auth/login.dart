@@ -28,9 +28,8 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       try {
         // Giả sử bạn đã có hàm login API và trả về JWT token
-        String jwtToken =
-            await AuthServices(CustomHttpClient(http.Client(), context))
-                .login(username, password);
+        String jwtToken = await AuthServices(CustomHttpClient(http.Client()))
+            .login(username, password);
         print(jwtToken);
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('jwt', jwtToken);

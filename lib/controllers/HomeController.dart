@@ -27,7 +27,7 @@ class HomeController extends GetxController {
       isLoadingSlider(true);
       isLoadingCategories(true);
 
-      final client = CustomHttpClient(http.Client(), Get.context!);
+      final client = CustomHttpClient(http.Client());
 
       final products = await ProductService(client).fetchSuggestionsToday();
       final sliderProducts = await ProductService(client).fetchSlider();

@@ -1,29 +1,20 @@
 import 'package:ecommerce_app/controllers/MainPageController.dart';
-import 'package:ecommerce_app/pages/Account/account.dart';
-import 'package:ecommerce_app/pages/ShoppingCarts/MyCartsPage.dart';
-import 'package:ecommerce_app/pages/Home/HomePage.dart';
-import 'package:ecommerce_app/pages/Orders/MyOrdersPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MainPage extends StatelessWidget {
   final MainPageController controller = Get.put(MainPageController());
-
-  final List<Widget> _pages = [
-    HomePage(),
-    MyOrdersPage(),
-    MyCartsPage(),
-    AccountPage(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Obx(() => IndexedStack(
-              index: controller.selectedIndex.value,
-              children: _pages,
-            )),
+        child: Obx(() {
+          return IndexedStack(
+            index: controller.selectedIndex.value,
+            children:
+                controller.pages.map((page) => page ?? Container()).toList(),
+          );
+        }),
       ),
       bottomNavigationBar: Obx(() {
         return BottomNavigationBar(

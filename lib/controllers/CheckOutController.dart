@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ecommerce_app/controllers/MyCartsController.dart';
 import 'package:ecommerce_app/controllers/MyOrdersController.dart';
 import 'package:ecommerce_app/models/ShoppingCartModel.dart';
@@ -6,6 +8,7 @@ import 'package:ecommerce_app/pages/Orders/OrderDetailsPage.dart';
 import 'package:ecommerce_app/pages/main_page.dart';
 import 'package:ecommerce_app/services/CustomHttpClient.dart';
 import 'package:ecommerce_app/services/ShoppingCartServices.dart';
+import 'package:ecommerce_app/utils/MyCaculator.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,11 +20,9 @@ class CheckOutController extends GetxController {
   var isLoading = true.obs;
   var address = ''.obs;
   var note = ''.obs;
-  var paymentMethod = 'online'.obs;
-
-  void setPaymentMethod(String method) {
-    paymentMethod.value = method;
-  }
+  var paymentId = 1.obs;
+  var discountPrice = 0.0.obs;
+  var voucherId = 1;
 
   CheckOutController(this.shoppingCartId);
 
@@ -31,11 +32,29 @@ class CheckOutController extends GetxController {
     fetchShoppingCart();
   }
 
+  void setPaymentMethod(int id) {
+    paymentId.value = id;
+  }
+
+  void caculateDiscountPrice(VoucherModel? voucher) {
+    if (voucher != null) {
+      double caculateDiscount = shoppingCart.value!.getTotalPrice() -
+          MyCaculator.calculateDiscountedPrice(
+              shoppingCart.value!.getTotalPrice(),
+              voucher.phanTramGiam.toDouble());
+      discountPrice.value = min(caculateDiscount, (voucher.giamToiDa ?? 0.0));
+      voucherId = voucher.voucherId;
+    } else {
+      discountPrice.value = 0.0;
+      voucherId = 1;
+    }
+  }
+
   Future<void> checkOut() async {
     try {
-      final orderId = await ShoppingCartService(
-              CustomHttpClient(http.Client(), Get.context!))
-          .checkOut(1, 1, address.value, note.value, shoppingCartId);
+      final orderId = await ShoppingCartService(CustomHttpClient(http.Client()))
+          .checkOut(voucherId, paymentId.value, address.value, note.value,
+              shoppingCartId);
       Get.delete<MyCartsController>();
       Get.delete<MyOrdersController>();
       Get.offAll(() => MainPage());
@@ -48,12 +67,12 @@ class CheckOutController extends GetxController {
   Future<void> fetchShoppingCart() async {
     try {
       isLoading.value = true;
-      final fetchedShoppingCart = await ShoppingCartService(
-              CustomHttpClient(http.Client(), Get.context!))
-          .fetchShoppingCartById(shoppingCartId);
-      final fetchedVouchers = await ShoppingCartService(
-              CustomHttpClient(http.Client(), Get.context!))
-          .fetchVoucherByShopId(fetchedShoppingCart.shopId);
+      final fetchedShoppingCart =
+          await ShoppingCartService(CustomHttpClient(http.Client()))
+              .fetchShoppingCartById(shoppingCartId);
+      final fetchedVouchers =
+          await ShoppingCartService(CustomHttpClient(http.Client()))
+              .fetchVoucherByShopId(fetchedShoppingCart.shopId);
       shoppingCart.value = fetchedShoppingCart;
       voucherList.value = fetchedVouchers;
     } catch (e) {

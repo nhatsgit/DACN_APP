@@ -36,8 +36,7 @@ class ProductDetailsController extends GetxController {
 
   Future<void> addToCart() async {
     try {
-      final message = await ShoppingCartService(
-              CustomHttpClient(http.Client(), Get.context!))
+      final message = await ShoppingCartService(CustomHttpClient(http.Client()))
           .addToCart(productId, quantity.value);
 
       Get.snackbar(
@@ -67,14 +66,12 @@ class ProductDetailsController extends GetxController {
       isLoading.value = true;
       errorMessage.value = '';
       final fetchedProduct =
-          await ProductService(CustomHttpClient(http.Client(), Get.context!))
+          await ProductService(CustomHttpClient(http.Client()))
               .fetchProductById(productId);
-      final fetchImages =
-          await ProductService(CustomHttpClient(http.Client(), Get.context!))
-              .fetchImagesProductById(productId);
-      final fetchReviews =
-          await ProductService(CustomHttpClient(http.Client(), Get.context!))
-              .fetchReviewsProductById(productId);
+      final fetchImages = await ProductService(CustomHttpClient(http.Client()))
+          .fetchImagesProductById(productId);
+      final fetchReviews = await ProductService(CustomHttpClient(http.Client()))
+          .fetchReviewsProductById(productId);
       imageList.value = fetchImages;
       product.value = fetchedProduct;
       reviewsList.value = fetchReviews;
