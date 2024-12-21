@@ -5,7 +5,7 @@ import 'package:ecommerce_app/models/VoucherModel.dart';
 import 'package:ecommerce_app/services/CustomHttpClient.dart';
 
 class ShoppingCartService {
-  final CustomHttpClient _customHttpClient;
+  final Request _customHttpClient;
 
   ShoppingCartService(this._customHttpClient);
 

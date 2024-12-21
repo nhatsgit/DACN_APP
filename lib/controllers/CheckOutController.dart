@@ -52,7 +52,7 @@ class CheckOutController extends GetxController {
 
   Future<void> checkOut() async {
     try {
-      final orderId = await ShoppingCartService(CustomHttpClient(http.Client()))
+      final orderId = await ShoppingCartService(Request(http.Client()))
           .checkOut(voucherId, paymentId.value, address.value, note.value,
               shoppingCartId);
       Get.delete<MyCartsController>();
@@ -68,11 +68,10 @@ class CheckOutController extends GetxController {
     try {
       isLoading.value = true;
       final fetchedShoppingCart =
-          await ShoppingCartService(CustomHttpClient(http.Client()))
+          await ShoppingCartService(Request(http.Client()))
               .fetchShoppingCartById(shoppingCartId);
-      final fetchedVouchers =
-          await ShoppingCartService(CustomHttpClient(http.Client()))
-              .fetchVoucherByShopId(fetchedShoppingCart.shopId);
+      final fetchedVouchers = await ShoppingCartService(Request(http.Client()))
+          .fetchVoucherByShopId(fetchedShoppingCart.shopId);
       shoppingCart.value = fetchedShoppingCart;
       voucherList.value = fetchedVouchers;
     } catch (e) {

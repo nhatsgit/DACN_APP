@@ -3,7 +3,7 @@ import 'package:ecommerce_app/models/CategoryModel.dart';
 import 'package:ecommerce_app/services/CustomHttpClient.dart';
 
 class CategoryService {
-  final CustomHttpClient _customHttpClient;
+  final Request _customHttpClient;
 
   CategoryService(this._customHttpClient);
 

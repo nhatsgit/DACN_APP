@@ -5,7 +5,7 @@ import 'package:ecommerce_app/models/ProductModel.dart';
 import 'package:ecommerce_app/services/CustomHttpClient.dart';
 
 class OrderService {
-  final CustomHttpClient _customHttpClient;
+  final Request _customHttpClient;
 
   OrderService(this._customHttpClient);
 

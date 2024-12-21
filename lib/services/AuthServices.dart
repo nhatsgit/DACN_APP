@@ -4,7 +4,7 @@ import 'package:ecommerce_app/models/UserInfoModel.dart';
 import 'package:ecommerce_app/services/CustomHttpClient.dart';
 
 class AuthServices {
-  final CustomHttpClient _customHttpClient;
+  final Request _customHttpClient;
 
   AuthServices(this._customHttpClient);
 

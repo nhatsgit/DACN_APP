@@ -124,27 +124,56 @@ class OrderDetailsPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Get.snackbar(
-                        "Hủy đơn hàng",
-                        "Đơn hàng của bạn đã được hủy.",
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Colors.red,
-                        colorText: Colors.white,
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.red,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 12),
-                    ),
-                    child: const Text(
-                      "Hủy Đơn",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
+                  Column(
+                    children: [
+                      if (controller.order.value!.orderStatus!.orderStatusId <
+                          3)
+                        ElevatedButton(
+                          onPressed: () {
+                            Get.snackbar(
+                              "Hủy đơn hàng",
+                              "Đơn hàng của bạn đã được hủy.",
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: Colors.red,
+                              colorText: Colors.white,
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.red,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 12),
+                          ),
+                          child: const Text(
+                            "Hủy Đơn",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      if (controller.order.value!.orderStatus!.orderStatusId ==
+                          5)
+                        ElevatedButton(
+                          onPressed: () {
+                            Get.snackbar(
+                              "Trả hàng",
+                              "Yêu cầu trả hàng đã được gửi.",
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: Colors.blue,
+                              colorText: Colors.white,
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.red,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 12),
+                          ),
+                          child: const Text(
+                            "Trả Hàng",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                    ],
+                  )
                 ],
               ),
             ),

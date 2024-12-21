@@ -6,7 +6,7 @@ import 'package:ecommerce_app/services/CustomHttpClient.dart';
 import 'package:ecommerce_app/services/ProductServices.dart';
 import 'package:http/http.dart' as http;
 
-class HomeController extends GetxController {
+class FilterProductsController extends GetxController {
   var productSuggestions = <ProductModel>[].obs;
   var productSlider = <ProductModel>[].obs;
   var categoryList = <CategoryModel>[].obs;

@@ -17,8 +17,8 @@ class MyOrdersController extends GetxController {
   Future<void> fetchMyOrders(int pageNumber) async {
     try {
       isLoading.value = true;
-      final result = await OrderService(CustomHttpClient(http.Client()))
-          .fetchMyOrders(pageNumber);
+      final result =
+          await OrderService(Request(http.Client())).fetchMyOrders(pageNumber);
 
       orderByPage.value = result;
     } catch (e) {

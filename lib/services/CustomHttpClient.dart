@@ -5,10 +5,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CustomHttpClient {
+class Request {
   final http.Client _client;
 
-  CustomHttpClient(this._client);
+  Request(this._client);
 
   Future<http.Response> get(String endpoint) async {
     final token = await _getJwt();
