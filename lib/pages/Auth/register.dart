@@ -1,103 +1,129 @@
+import 'package:ecommerce_app/controllers/RegisterController.dart';
+import 'package:ecommerce_app/pages/Auth/login.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
-
-  @override
-  State<RegisterPage> createState() => _RegisterPageState();
-}
-
-class _RegisterPageState extends State<RegisterPage> {
-  final _formKey = GlobalKey<FormState>();
+class RegisterPage extends StatelessWidget {
+  final RegistrationController controller = Get.put(RegistrationController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Đăng ký"),
-        backgroundColor: Colors.blue,
-      ),
+      appBar: AppBar(title: Text('Đăng Ký')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
+        child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Full Name
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Họ tên'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Vui lòng nhập họ tên';
-                  }
-                  return null;
-                },
+              Obx(() => TextField(
+                    onChanged: (value) => controller.userName.value = value,
+                    decoration: InputDecoration(
+                      labelText: 'UserName',
+                      errorText: controller.userNameError.value.isEmpty
+                          ? null
+                          : controller.userNameError.value,
+                    ),
+                  )),
+              Obx(() => TextField(
+                    onChanged: (value) => controller.password.value = value,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      errorText: controller.passwordError.value.isEmpty
+                          ? null
+                          : controller.passwordError.value,
+                    ),
+                  )),
+              TextField(
+                onChanged: (value) => controller.fullName.value = value,
+                decoration: InputDecoration(labelText: 'FullName'),
               ),
+              TextField(
+                onChanged: (value) => controller.address.value = value,
+                decoration: InputDecoration(labelText: 'Address'),
+              ),
+              Obx(() => TextField(
+                    onChanged: (value) => controller.email.value = value,
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      errorText: controller.emailError.value.isEmpty
+                          ? null
+                          : controller.emailError.value,
+                    ),
+                  )),
+              Obx(() => TextField(
+                    onChanged: (value) => controller.phoneNumber.value = value,
+                    decoration: InputDecoration(
+                      labelText: 'PhoneNumber',
+                      errorText: controller.phoneNumberError.value.isEmpty
+                          ? null
+                          : controller.phoneNumberError.value,
+                    ),
+                  )),
               SizedBox(height: 16),
-
-              // Phone Number
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Số điện thoại'),
-                keyboardType: TextInputType.phone,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Vui lòng nhập số điện thoại';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-
-              // Email
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Email'),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Vui lòng nhập email';
-                  }
-                  if (!value.contains('@')) {
-                    return 'Email không hợp lệ';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-
-              // Password
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Mật khẩu'),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Vui lòng nhập mật khẩu';
-                  }
-                  if (value.length < 6) {
-                    return 'Mật khẩu phải có ít nhất 6 ký tự';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-
-              // Confirm Password
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Nhập lại mật khẩu'),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Vui lòng nhập lại mật khẩu';
-                  }
-                  // Compare with password field
-                  return null;
-                },
-              ),
-              SizedBox(height: 32),
-
-              // Submit Button
-              ElevatedButton(
-                onPressed: () {},
-                child: Text('Đăng ký'),
+              Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Obx(() => controller.avatarImage.value != null
+                        ? CircleAvatar(
+                            radius: 50,
+                            backgroundImage:
+                                FileImage(controller.avatarImage.value!),
+                          )
+                        : CircleAvatar(
+                            radius: 50,
+                            child: Icon(Icons.person),
+                          )),
+                    TextButton(
+                      onPressed: controller.pickImage,
+                      child: Text('Chọn Ảnh'),
+                    ),
+                    SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                      child: Container(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: controller.register,
+                          child: Text(
+                            "Đăng kí",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.orange,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                      child: Container(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()),
+                            );
+                          },
+                          child: Text("Đã có tài khoản"),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

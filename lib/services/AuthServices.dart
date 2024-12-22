@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:ecommerce_app/models/UserInfoModel.dart';
+import 'package:ecommerce_app/services/ApiConfig.dart';
 import 'package:ecommerce_app/services/HttpRequest.dart';
+import 'package:http/http.dart' as http;
 
 class AuthServices {
   final HttpRequest _customHttpClient;
@@ -34,6 +37,49 @@ class AuthServices {
       return UserInfoModel.fromJson(data);
     } else {
       throw Exception('Failed to load user info');
+    }
+  }
+
+  static Future<bool> register({
+    required String userName,
+    required String password,
+    required String fullName,
+    required String address,
+    required String email,
+    required String phoneNumber,
+    File? avatarImage,
+  }) async {
+    try {
+      final uri = Uri.parse('${ApiConfig.baseAPIUrl}Account/register');
+
+      var request = http.MultipartRequest('POST', uri);
+
+      request.fields['userName'] = userName;
+      request.fields['password'] = password;
+      request.fields['fullName'] = fullName;
+      request.fields['avatar'] = fullName;
+      request.fields['address'] = address;
+      request.fields['email'] = email;
+      request.fields['phoneNumber'] = phoneNumber;
+
+      if (avatarImage != null) {
+        request.files.add(await http.MultipartFile.fromPath(
+          'avatarImage',
+          avatarImage.path,
+        ));
+      }
+
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw Exception('Failed to register');
+      }
+    } catch (e) {
+      print(e);
+      return false;
     }
   }
 }
