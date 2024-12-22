@@ -3,34 +3,6 @@ import 'package:ecommerce_app/models/ProductModel.dart';
 import 'package:ecommerce_app/models/UserInfoModel.dart';
 import 'package:ecommerce_app/models/VoucherModel.dart';
 
-class OrderResponse {
-  final List<OrderModel> items;
-  final int pageNumber;
-  final int pageSize;
-  final int totalItemCount;
-  final int pageCount;
-
-  OrderResponse({
-    required this.items,
-    required this.pageNumber,
-    required this.pageSize,
-    required this.totalItemCount,
-    required this.pageCount,
-  });
-
-  factory OrderResponse.fromJson(Map<String, dynamic> json) {
-    return OrderResponse(
-      items: (json['items'] as List<dynamic>)
-          .map((e) => OrderModel.fromJson(e))
-          .toList(),
-      pageNumber: json['pageNumber'],
-      pageSize: json['pageSize'],
-      totalItemCount: json['totalItemCount'],
-      pageCount: json['pageCount'],
-    );
-  }
-}
-
 class OrderModel {
   final int orderId;
   final DateTime orderDate;

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ecommerce_app/models/PageListProductModel.dart';
 import 'package:ecommerce_app/models/ProductImageModel.dart';
 import 'package:ecommerce_app/models/ProductModel.dart';
 import 'package:ecommerce_app/models/ReviewsModel.dart';
@@ -85,7 +86,7 @@ class ProductService {
     }
   }
 
-  Future<List<ProductModel>> fetchFilteredProducts({
+  Future<PageListProductModel> fetchFilteredProducts({
     String? keyword,
     int? categoryId,
     int? brandId,
@@ -111,8 +112,9 @@ class ProductService {
     final response = await _request.get(endpoint);
 
     if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      return data.map((jsonItem) => ProductModel.fromJson(jsonItem)).toList();
+      final dynamic data = json.decode(response.body);
+
+      return PageListProductModel.fromJson(data);
     } else {
       throw Exception('Failed to load filtered products');
     }

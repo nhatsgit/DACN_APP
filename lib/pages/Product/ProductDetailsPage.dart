@@ -42,8 +42,8 @@ class ProductDetailsPage extends StatelessWidget {
         }
 
         final product = controller.product.value!;
-        final images = controller.imageList.value!;
-        final reviews = controller.reviewsList.value!;
+        final images = controller.imageList;
+        final reviews = controller.reviewsList;
 
         return Stack(
           children: [
@@ -76,7 +76,7 @@ class ProductDetailsPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    "Giảm giá: ${product.phanTramGiam ?? 0}%",
+                    "Giảm giá: ${product.phanTramGiam}%",
                     style: const TextStyle(
                       fontSize: 16,
                       color: Colors.red,
@@ -93,6 +93,24 @@ class ProductDetailsPage extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: "${product.productId}",
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      text: "Mã loại: ",
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: "${product.productCategoryId}",
                           style: const TextStyle(
                             fontSize: 14,
                             color: Colors.black,

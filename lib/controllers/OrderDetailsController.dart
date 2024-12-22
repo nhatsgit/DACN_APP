@@ -1,7 +1,6 @@
 import 'package:ecommerce_app/models/OrderModel.dart';
 import 'package:ecommerce_app/services/CustomHttpClient.dart';
 import 'package:ecommerce_app/services/OrderServices.dart';
-import 'package:ecommerce_app/services/ShoppingCartServices.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 

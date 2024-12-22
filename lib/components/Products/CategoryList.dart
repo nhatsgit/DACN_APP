@@ -50,8 +50,7 @@ class ListCategory extends StatelessWidget {
                             child: Container(
                               color: Colors.grey[200],
                               child: Center(
-                                child: categories[index].anhDaiDien != null &&
-                                        categories[index].anhDaiDien.isNotEmpty
+                                child: categories[index].anhDaiDien!.isNotEmpty
                                     ? Image.network(
                                         '${ApiConfig.baseUrl}${categories[index].anhDaiDien}',
                                         fit: BoxFit.fill,

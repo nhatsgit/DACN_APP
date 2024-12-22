@@ -1,4 +1,6 @@
+import 'package:ecommerce_app/controllers/FilterProductsController.dart';
 import 'package:ecommerce_app/controllers/SearchController.dart';
+import 'package:ecommerce_app/pages/Product/FilterProductsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -28,6 +30,16 @@ class _SearchPageState extends State<SearchPage> {
     super.dispose();
   }
 
+  void _onSearch() {
+    final keyword = searchTextController.text;
+    if (keyword.isNotEmpty) {
+      searchController.addSearchTerm(keyword);
+      searchController.fetchSuggestions(keyword);
+      Get.delete<FilterProductsController>();
+      Get.to(() => FilterProductsPage(keyword: keyword));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,17 +59,14 @@ class _SearchPageState extends State<SearchPage> {
             suffixIcon: IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
-                final keyword = searchTextController.text;
-                if (keyword.isNotEmpty) {
-                  searchController.addSearchTerm(keyword);
-                  searchController.fetchSuggestions(keyword);
-                }
+                _onSearch();
               },
             ),
           ),
           onChanged: (value) {
             searchController.fetchSuggestions(value);
           },
+          onSubmitted: (value) => _onSearch(),
         ),
       ),
       body: Padding(

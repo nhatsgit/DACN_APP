@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:ecommerce_app/models/OrderModel.dart';
-import 'package:ecommerce_app/models/PageListModel.dart';
-import 'package:ecommerce_app/models/ProductModel.dart';
+import 'package:ecommerce_app/models/PageListOrderModel.dart';
 import 'package:ecommerce_app/services/CustomHttpClient.dart';
 
 class OrderService {
@@ -9,12 +8,12 @@ class OrderService {
 
   OrderService(this._customHttpClient);
 
-  Future<OrderResponse> fetchMyOrders(int pageNumber) async {
+  Future<PageListOrderModel> fetchMyOrders(int pageNumber) async {
     final endpoint = 'Orders?pageNumber=$pageNumber';
     final response = await _customHttpClient.get(endpoint);
     if (response.statusCode == 200) {
       final dynamic data = json.decode(response.body);
-      return OrderResponse.fromJson(data);
+      return PageListOrderModel.fromJson(data);
     } else {
       throw Exception('Failed to load orders');
     }

@@ -1,7 +1,5 @@
 import 'package:ecommerce_app/components/CustomRichText.dart';
-import 'package:ecommerce_app/components/Order/Order.dart';
 import 'package:ecommerce_app/components/Order/OrderDetail.dart';
-import 'package:ecommerce_app/components/custom_app_bar.dart';
 import 'package:ecommerce_app/controllers/OrderDetailsController.dart';
 import 'package:ecommerce_app/utils/MyFormat.dart';
 import 'package:flutter/material.dart';

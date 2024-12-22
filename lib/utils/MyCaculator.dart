@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 class MyCaculator {
   static double calculateDiscountedPrice(
       double originalPrice, double discountPercent) {

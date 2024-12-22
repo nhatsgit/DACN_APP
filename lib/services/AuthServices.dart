@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:ecommerce_app/models/CategoryModel.dart';
 import 'package:ecommerce_app/models/UserInfoModel.dart';
 import 'package:ecommerce_app/services/CustomHttpClient.dart';
 
@@ -20,11 +19,7 @@ class AuthServices {
     if (response.statusCode == 200) {
       final jwtToken = response.body;
 
-      if (jwtToken != null) {
-        return jwtToken;
-      } else {
-        throw Exception('JWT token not found');
-      }
+      return jwtToken;
     } else {
       throw Exception('Failed to login: ${response.statusCode}');
     }

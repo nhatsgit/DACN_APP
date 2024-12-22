@@ -1,4 +1,3 @@
-import 'package:ecommerce_app/controllers/ProductDetailsController.dart';
 import 'package:ecommerce_app/models/ProductModel.dart';
 import 'package:ecommerce_app/pages/Product/ProductDetailsPage.dart';
 import 'package:ecommerce_app/services/ApiConfig.dart';

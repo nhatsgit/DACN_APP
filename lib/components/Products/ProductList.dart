@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 
 class ListProduct extends StatelessWidget {
   final List<ProductModel> products;
-
-  const ListProduct({required this.products, Key? key}) : super(key: key);
+  final String title;
+  const ListProduct({required this.products, required this.title, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text("Gợi ý hôm nay",
-            style: TextStyle(
+        Text(title,
+            style: const TextStyle(
                 fontSize: 24, color: Colors.blue, fontWeight: FontWeight.bold)),
         const SizedBox(height: 20),
         Padding(

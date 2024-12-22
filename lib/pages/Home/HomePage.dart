@@ -9,7 +9,6 @@ import 'package:ecommerce_app/components/Products/ProductSlider.dart';
 
 class HomePage extends StatelessWidget {
   final HomeController homeController = Get.put(HomeController());
-  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +78,9 @@ class HomePage extends StatelessWidget {
               } else if (homeController.productSuggestions.isEmpty) {
                 return const Center(child: Text('Không có sản phẩm.'));
               } else {
-                return ListProduct(products: homeController.productSuggestions);
+                return ListProduct(
+                    title: "Gợi ý hôm nay",
+                    products: homeController.productSuggestions);
               }
             }),
           ],

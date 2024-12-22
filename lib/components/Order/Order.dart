@@ -1,7 +1,6 @@
 import 'package:ecommerce_app/components/Order/OrderDetail.dart';
 import 'package:ecommerce_app/models/OrderModel.dart';
 import 'package:ecommerce_app/pages/Orders/OrderDetailsPage.dart';
-import 'package:ecommerce_app/pages/Product/ProductDetailsPage.dart';
 import 'package:ecommerce_app/utils/MyFormat.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

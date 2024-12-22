@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:ecommerce_app/models/OrderModel.dart';
 import 'package:ecommerce_app/models/ShoppingCartModel.dart';
 import 'package:ecommerce_app/models/VoucherModel.dart';
 import 'package:ecommerce_app/services/CustomHttpClient.dart';

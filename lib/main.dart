@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:ecommerce_app/pages/Auth/login.dart';
-import 'package:ecommerce_app/pages/Home/HomePage.dart';
 import 'package:ecommerce_app/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
