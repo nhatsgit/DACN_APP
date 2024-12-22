@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/services/CustomHttpClient.dart';
+import 'package:ecommerce_app/services/HttpRequest.dart';
 import 'package:ecommerce_app/services/ProductServices.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,8 +36,9 @@ class SearchBarController extends GetxController {
     }
     isLoading.value = true;
     try {
-      final fetchedSuggestions = await ProductService(Request(http.Client()))
-          .getSearchSuggestions(keyword);
+      final fetchedSuggestions =
+          await ProductService(HttpRequest(http.Client()))
+              .getSearchSuggestions(keyword);
       suggestions.value = fetchedSuggestions;
     } catch (e) {
       suggestions.clear();

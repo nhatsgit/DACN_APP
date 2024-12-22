@@ -2,7 +2,7 @@ import 'package:ecommerce_app/services/CategoryServices.dart';
 import 'package:get/get.dart';
 import 'package:ecommerce_app/models/CategoryModel.dart';
 import 'package:ecommerce_app/models/ProductModel.dart';
-import 'package:ecommerce_app/services/CustomHttpClient.dart';
+import 'package:ecommerce_app/services/HttpRequest.dart';
 import 'package:ecommerce_app/services/ProductServices.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,30 +18,49 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchProductSuggestions();
+    fetchSuggestions();
+    fetchSlider();
+    fetchCategories();
   }
 
-  Future<void> fetchProductSuggestions() async {
+  Future<void> fetchSuggestions() async {
     try {
       isLoadingSuggestions(true);
-      isLoadingSlider(true);
-      isLoadingCategories(true);
-
-      final client = Request(http.Client());
-
+      final client = HttpRequest(http.Client());
       final products = await ProductService(client).fetchSuggestionsToday();
-      final sliderProducts = await ProductService(client).fetchSlider();
-      final categories = await CategoryService(client).fetchCatetories();
-
       productSuggestions.assignAll(products);
-      productSlider.assignAll(sliderProducts);
-      categoryList.assignAll(categories);
     } catch (e) {
-      Get.snackbar("Lỗi", "Không thể tải dữ liệu: $e",
+      Get.snackbar("Lỗi", "Không thể tải sản phẩm gợi ý: $e",
           snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoadingSuggestions(false);
+    }
+  }
+
+  Future<void> fetchSlider() async {
+    try {
+      isLoadingSlider(true);
+      final client = HttpRequest(http.Client());
+      final sliderProducts = await ProductService(client).fetchSlider();
+      productSlider.assignAll(sliderProducts);
+    } catch (e) {
+      Get.snackbar("Lỗi", "Không thể tải slider: $e",
+          snackPosition: SnackPosition.BOTTOM);
+    } finally {
       isLoadingSlider(false);
+    }
+  }
+
+  Future<void> fetchCategories() async {
+    try {
+      isLoadingCategories(true);
+      final client = HttpRequest(http.Client());
+      final categories = await CategoryService(client).fetchCatetories();
+      categoryList.assignAll(categories);
+    } catch (e) {
+      Get.snackbar("Lỗi", "Không thể tải danh mục: $e",
+          snackPosition: SnackPosition.BOTTOM);
+    } finally {
       isLoadingCategories(false);
     }
   }

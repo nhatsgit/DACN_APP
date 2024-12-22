@@ -1,8 +1,10 @@
 import 'package:ecommerce_app/pages/Auth/register.dart';
+import 'package:ecommerce_app/pages/main_page.dart';
 import 'package:ecommerce_app/routes/routes.dart';
 import 'package:ecommerce_app/services/AuthServices.dart';
-import 'package:ecommerce_app/services/CustomHttpClient.dart';
+import 'package:ecommerce_app/services/HttpRequest.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -27,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
       );
     } else {
       try {
-        String jwtToken = await AuthServices(Request(http.Client()))
+        String jwtToken = await AuthServices(HttpRequest(http.Client()))
             .login(username, password);
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('jwt', jwtToken);
@@ -43,6 +45,21 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        title: Text("Đăng nhập"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.offAll(() => MainPage());
+            },
+            icon: Icon(
+              Icons.home,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
       body: Center(
         child: Container(
           width: double.infinity,

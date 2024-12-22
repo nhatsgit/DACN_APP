@@ -1,6 +1,6 @@
 import 'package:ecommerce_app/models/PageListOrderModel.dart';
 import 'package:get/get.dart';
-import 'package:ecommerce_app/services/CustomHttpClient.dart';
+import 'package:ecommerce_app/services/HttpRequest.dart';
 import 'package:ecommerce_app/services/OrderServices.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,8 +17,8 @@ class MyOrdersController extends GetxController {
   Future<void> fetchMyOrders(int pageNumber) async {
     try {
       isLoading.value = true;
-      final result =
-          await OrderService(Request(http.Client())).fetchMyOrders(pageNumber);
+      final result = await OrderService(HttpRequest(http.Client()))
+          .fetchMyOrders(pageNumber);
 
       orderByPage.value = result;
     } catch (e) {

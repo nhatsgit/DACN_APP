@@ -3,10 +3,12 @@ import 'dart:math';
 import 'package:ecommerce_app/controllers/MyCartsController.dart';
 import 'package:ecommerce_app/controllers/MyOrdersController.dart';
 import 'package:ecommerce_app/models/ShoppingCartModel.dart';
+import 'package:ecommerce_app/models/UserInfoModel.dart';
 import 'package:ecommerce_app/models/VoucherModel.dart';
 import 'package:ecommerce_app/pages/Orders/OrderDetailsPage.dart';
 import 'package:ecommerce_app/pages/main_page.dart';
-import 'package:ecommerce_app/services/CustomHttpClient.dart';
+import 'package:ecommerce_app/services/AuthServices.dart';
+import 'package:ecommerce_app/services/HttpRequest.dart';
 import 'package:ecommerce_app/services/ShoppingCartServices.dart';
 import 'package:ecommerce_app/utils/MyCaculator.dart';
 import 'package:get/get.dart';
@@ -30,6 +32,7 @@ class CheckOutController extends GetxController {
   void onInit() {
     super.onInit();
     fetchShoppingCart();
+    fetchUserInfo();
   }
 
   void setPaymentMethod(int id) {
@@ -52,7 +55,7 @@ class CheckOutController extends GetxController {
 
   Future<void> checkOut() async {
     try {
-      final orderId = await ShoppingCartService(Request(http.Client()))
+      final orderId = await ShoppingCartService(HttpRequest(http.Client()))
           .checkOut(voucherId, paymentId.value, address.value, note.value,
               shoppingCartId);
       Get.delete<MyCartsController>();
@@ -68,12 +71,26 @@ class CheckOutController extends GetxController {
     try {
       isLoading.value = true;
       final fetchedShoppingCart =
-          await ShoppingCartService(Request(http.Client()))
+          await ShoppingCartService(HttpRequest(http.Client()))
               .fetchShoppingCartById(shoppingCartId);
-      final fetchedVouchers = await ShoppingCartService(Request(http.Client()))
-          .fetchVoucherByShopId(fetchedShoppingCart.shopId);
+      final fetchedVouchers =
+          await ShoppingCartService(HttpRequest(http.Client()))
+              .fetchVoucherByShopId(fetchedShoppingCart.shopId);
       shoppingCart.value = fetchedShoppingCart;
       voucherList.value = fetchedVouchers;
+    } catch (e) {
+      print(e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> fetchUserInfo() async {
+    try {
+      isLoading.value = true;
+      final user = await AuthServices(HttpRequest(http.Client())).getMyInfo();
+      address.value = user.address ?? '';
+      note.value = ' ${user.fullName} đặt hàng(${user.phoneNumber})' ?? '';
     } catch (e) {
       print(e);
     } finally {

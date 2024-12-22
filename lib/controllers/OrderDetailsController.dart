@@ -1,5 +1,5 @@
 import 'package:ecommerce_app/models/OrderModel.dart';
-import 'package:ecommerce_app/services/CustomHttpClient.dart';
+import 'package:ecommerce_app/services/HttpRequest.dart';
 import 'package:ecommerce_app/services/OrderServices.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -20,8 +20,8 @@ class OrderDetailsController extends GetxController {
   Future<void> _fetchOrderById() async {
     try {
       isLoading.value = true;
-      final fetchOrder =
-          await OrderService(Request(http.Client())).fetchOrderById(orderId);
+      final fetchOrder = await OrderService(HttpRequest(http.Client()))
+          .fetchOrderById(orderId);
       order.value = fetchOrder;
     } catch (e) {
       print("Lỗi ${e}");

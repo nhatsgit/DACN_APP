@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:ecommerce_app/models/OrderModel.dart';
 import 'package:ecommerce_app/models/PageListOrderModel.dart';
-import 'package:ecommerce_app/services/CustomHttpClient.dart';
+import 'package:ecommerce_app/services/HttpRequest.dart';
 
 class OrderService {
-  final Request _customHttpClient;
+  final HttpRequest _customHttpClient;
 
   OrderService(this._customHttpClient);
 

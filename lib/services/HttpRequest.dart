@@ -4,10 +4,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Request {
+class HttpRequest {
   final http.Client _client;
 
-  Request(this._client);
+  HttpRequest(this._client);
 
   Future<http.Response> get(String endpoint) async {
     final token = await _getJwt();

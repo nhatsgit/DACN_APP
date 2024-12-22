@@ -68,7 +68,7 @@ class _FilterDrawerState extends State<FilterDrawer> {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          DrawerHeader(
+          const DrawerHeader(
             padding: EdgeInsets.zero,
             decoration: BoxDecoration(
               color: Colors.blue,

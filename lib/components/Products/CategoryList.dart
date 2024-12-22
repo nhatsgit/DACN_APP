@@ -1,5 +1,5 @@
 import 'package:ecommerce_app/models/CategoryModel.dart';
-import 'package:ecommerce_app/pages/Product/ProductDetailsPage.dart';
+import 'package:ecommerce_app/pages/Product/ProductByCategoryPage.dart';
 import 'package:ecommerce_app/services/ApiConfig.dart';
 import 'package:flutter/material.dart';
 
@@ -36,8 +36,8 @@ class ListCategory extends StatelessWidget {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              ProductDetailsPage(productId: 1)),
+                          builder: (context) => ProductsByCategoryPage(
+                              category: categories[index])),
                     ),
                     child: Card(
                       shape: RoundedRectangleBorder(
@@ -60,9 +60,7 @@ class ListCategory extends StatelessWidget {
                                                     child: Icon(Icons.image,
                                                         size: 50)),
                                       )
-                                    : const Icon(Icons.image,
-                                        size:
-                                            50), // Hiển thị icon nếu không có ảnh
+                                    : const Icon(Icons.image, size: 50),
                               ),
                             ),
                           ),

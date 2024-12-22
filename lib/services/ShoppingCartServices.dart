@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:ecommerce_app/models/ShoppingCartModel.dart';
 import 'package:ecommerce_app/models/VoucherModel.dart';
-import 'package:ecommerce_app/services/CustomHttpClient.dart';
+import 'package:ecommerce_app/services/HttpRequest.dart';
 
 class ShoppingCartService {
-  final Request _customHttpClient;
+  final HttpRequest _customHttpClient;
 
   ShoppingCartService(this._customHttpClient);
 

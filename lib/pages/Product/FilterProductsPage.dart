@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/components/FilterDrawer.dart';
+import 'package:ecommerce_app/components/Products/FilterDrawer.dart';
 import 'package:ecommerce_app/components/PageList.dart';
 import 'package:ecommerce_app/controllers/FilterProductsController.dart';
 import 'package:ecommerce_app/pages/Shared/SearchPage.dart';
@@ -87,6 +87,8 @@ class FilterProductsPage extends StatelessWidget {
               Obx(() {
                 if (controller.isLoadingSuggestions.value) {
                   return const Center(child: CircularProgressIndicator());
+                } else if (controller.productsByPage.value == null) {
+                  return const Center(child: Text('Không có sản phẩm.'));
                 } else if (controller.productsByPage.value!.items.isEmpty) {
                   return const Center(child: Text('Không có sản phẩm.'));
                 } else {

@@ -78,33 +78,37 @@ class CheckOutPage extends StatelessWidget {
                 );
               },
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextField(
-                    onChanged: (value) => controller.address.value = value,
-                    decoration: InputDecoration(
-                      labelText: 'Địa chỉ',
-                      border: OutlineInputBorder(),
+            Obx(
+              () => Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextField(
+                      onChanged: (value) => controller.address.value = value,
+                      controller:
+                          TextEditingController(text: controller.address.value),
+                      decoration: InputDecoration(
+                        labelText: 'Địa chỉ',
+                        border: OutlineInputBorder(),
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 16),
-                  TextField(
-                    onChanged: (value) => controller.note.value = value,
-                    decoration: InputDecoration(
-                      labelText: 'Ghi chú',
-                      border: OutlineInputBorder(),
+                    SizedBox(height: 16),
+                    TextField(
+                      onChanged: (value) => controller.note.value = value,
+                      controller:
+                          TextEditingController(text: controller.note.value),
+                      decoration: InputDecoration(
+                        labelText: 'Ghi chú',
+                        border: OutlineInputBorder(),
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 16),
-                  Text(
-                    'Phương thức thanh toán',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Obx(
-                    () => Column(
+                    SizedBox(height: 16),
+                    Text(
+                      'Phương thức thanh toán',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Column(
                       children: [
                         RadioListTile<int>(
                           title: const Text('Thanh toán trực tiếp'),
@@ -120,46 +124,47 @@ class CheckOutPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-                  SizedBox(height: 16),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
+                    SizedBox(height: 16),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                        ),
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) => VoucherModal(
+                              vouchers: controller.voucherList,
+                              totalPrice: controller.shoppingCart.value
+                                      ?.getTotalPrice() ??
+                                  0,
+                              onVoucherSelected: (selectedVoucher) {
+                                controller
+                                    .caculateDiscountPrice(selectedVoucher);
+                                Navigator.pop(context);
+                              },
+                            ),
+                          );
+                        },
+                        child: Text('Chọn mã giảm giá'),
                       ),
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          builder: (context) => VoucherModal(
-                            vouchers: controller.voucherList,
-                            totalPrice: controller.shoppingCart.value
-                                    ?.getTotalPrice() ??
-                                0,
-                            onVoucherSelected: (selectedVoucher) {
-                              controller.caculateDiscountPrice(selectedVoucher);
-                              Navigator.pop(context);
-                            },
-                          ),
-                        );
-                      },
-                      child: Text('Chọn mã giảm giá'),
                     ),
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange,
+                        ),
+                        onPressed: () {
+                          controller.checkOut();
+                        },
+                        child: Text('Xác nhận thanh toán'),
                       ),
-                      onPressed: () {
-                        controller.checkOut();
-                      },
-                      child: Text('Xác nhận thanh toán'),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],

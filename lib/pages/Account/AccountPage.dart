@@ -24,9 +24,7 @@ class AccountPage extends StatelessWidget {
               style: TextStyle(fontSize: 18, color: Colors.white),
             ),
             Spacer(),
-            CustomButton(
-                onTap: () => {Navigator.pushNamed(context, AppRoutes.login)},
-                title: "Đăng nhập")
+            CustomButton(onTap: () => {controller.logout()}, title: "Đăng xuất")
           ]),
           Expanded(
             child: Obx(() {

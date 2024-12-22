@@ -44,7 +44,7 @@ class ProductDetailsPage extends StatelessWidget {
         final product = controller.product.value!;
         final images = controller.imageList;
         final reviews = controller.reviewsList;
-
+        final categoryName = controller.categoryName.value;
         return Stack(
           children: [
             SingleChildScrollView(
@@ -103,14 +103,14 @@ class ProductDetailsPage extends StatelessWidget {
                   ),
                   RichText(
                     text: TextSpan(
-                      text: "Mã loại: ",
+                      text: "Loại: ",
                       style: const TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
                       ),
                       children: [
                         TextSpan(
-                          text: "${product.productCategoryId}",
+                          text: categoryName,
                           style: const TextStyle(
                             fontSize: 14,
                             color: Colors.black,

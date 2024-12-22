@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:ecommerce_app/models/UserInfoModel.dart';
-import 'package:ecommerce_app/services/CustomHttpClient.dart';
+import 'package:ecommerce_app/services/HttpRequest.dart';
 
 class AuthServices {
-  final Request _customHttpClient;
+  final HttpRequest _customHttpClient;
 
   AuthServices(this._customHttpClient);
 

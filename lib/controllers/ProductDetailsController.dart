@@ -4,8 +4,9 @@ import 'package:ecommerce_app/models/ProductImageModel.dart';
 import 'package:ecommerce_app/models/ProductModel.dart';
 import 'package:ecommerce_app/models/ReviewsModel.dart';
 import 'package:ecommerce_app/pages/main_page.dart';
+import 'package:ecommerce_app/services/CategoryServices.dart';
 import 'package:ecommerce_app/services/ProductServices.dart';
-import 'package:ecommerce_app/services/CustomHttpClient.dart';
+import 'package:ecommerce_app/services/HttpRequest.dart';
 import 'package:ecommerce_app/services/ShoppingCartServices.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,6 +16,7 @@ class ProductDetailsController extends GetxController {
   var product = Rx<ProductModel?>(null);
   var imageList = <ProductImageModel>[].obs;
   var reviewsList = <ReviewsModel>[].obs;
+  var categoryName = ''.obs;
   var isLoading = true.obs;
   var errorMessage = ''.obs;
   var quantity = 1.obs;
@@ -36,7 +38,7 @@ class ProductDetailsController extends GetxController {
 
   Future<void> addToCart() async {
     try {
-      final message = await ShoppingCartService(Request(http.Client()))
+      final message = await ShoppingCartService(HttpRequest(http.Client()))
           .addToCart(productId, quantity.value);
 
       Get.snackbar(
@@ -65,19 +67,49 @@ class ProductDetailsController extends GetxController {
     try {
       isLoading.value = true;
       errorMessage.value = '';
-      final fetchedProduct = await ProductService(Request(http.Client()))
-          .fetchProductById(productId);
-      final fetchImages = await ProductService(Request(http.Client()))
-          .fetchImagesProductById(productId);
-      final fetchReviews = await ProductService(Request(http.Client()))
-          .fetchReviewsProductById(productId);
-      imageList.value = fetchImages;
-      product.value = fetchedProduct;
-      reviewsList.value = fetchReviews;
+      await Future.wait([
+        fetchProduct(),
+        fetchProductImages(),
+        fetchProductReviews(),
+      ]);
     } catch (e) {
       errorMessage.value = 'Lỗi khi lấy sản phẩm: $e';
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> fetchProduct() async {
+    try {
+      final fetchedProduct = await ProductService(HttpRequest(http.Client()))
+          .fetchProductById(productId);
+      product.value = fetchedProduct;
+
+      final fetchedCategory = await CategoryService(HttpRequest(http.Client()))
+          .fetchCategoryById(fetchedProduct.productCategoryId);
+      categoryName.value = fetchedCategory.tenLoai;
+    } catch (e) {
+      throw 'Lỗi khi lấy thông tin sản phẩm: $e';
+    }
+  }
+
+  Future<void> fetchProductImages() async {
+    try {
+      final fetchImages = await ProductService(HttpRequest(http.Client()))
+          .fetchImagesProductById(productId);
+      imageList.value = fetchImages;
+    } catch (e) {
+      throw 'Lỗi khi lấy hình ảnh sản phẩm: $e';
+    }
+  }
+
+  Future<void> fetchProductReviews() async {
+    try {
+      final fetchReviews = await ProductService(HttpRequest(http.Client()))
+          .fetchReviewsProductById(productId);
+      reviewsList.value = fetchReviews;
+    } catch (e) {
+      throw 'Lỗi khi lấy đánh giá sản phẩm: $e';
     }
   }
 }

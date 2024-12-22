@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ecommerce_app/models/ShoppingCartModel.dart';
-import 'package:ecommerce_app/services/CustomHttpClient.dart';
+import 'package:ecommerce_app/services/HttpRequest.dart';
 import 'package:ecommerce_app/services/ShoppingCartServices.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,7 +19,7 @@ class MyCartsController extends GetxController {
   Future<void> fetchShoppingCarts() async {
     try {
       isLoading.value = true;
-      final carts = await ShoppingCartService(Request(http.Client()))
+      final carts = await ShoppingCartService(HttpRequest(http.Client()))
           .fetchMyShoppingCarts();
       shoppingCarts.assignAll(carts);
     } catch (e) {
@@ -31,7 +31,7 @@ class MyCartsController extends GetxController {
 
   Future<void> deleteCartItem(int cartItemId) async {
     try {
-      final message = await ShoppingCartService(Request(http.Client()))
+      final message = await ShoppingCartService(HttpRequest(http.Client()))
           .deleteCartItemById(cartItemId);
       Get.snackbar(
         "${message}",

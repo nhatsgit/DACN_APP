@@ -3,10 +3,10 @@ import 'package:ecommerce_app/models/PageListProductModel.dart';
 import 'package:ecommerce_app/models/ProductImageModel.dart';
 import 'package:ecommerce_app/models/ProductModel.dart';
 import 'package:ecommerce_app/models/ReviewsModel.dart';
-import 'package:ecommerce_app/services/CustomHttpClient.dart';
+import 'package:ecommerce_app/services/HttpRequest.dart';
 
 class ProductService {
-  final Request _request;
+  final HttpRequest _request;
 
   ProductService(this._request);
 
