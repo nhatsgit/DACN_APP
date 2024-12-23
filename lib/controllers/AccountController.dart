@@ -1,6 +1,5 @@
 import 'package:ecommerce_app/models/UserInfoModel.dart';
 import 'package:ecommerce_app/pages/Auth/login.dart';
-import 'package:ecommerce_app/pages/Home/HomePage.dart';
 import 'package:ecommerce_app/pages/main_page.dart';
 import 'package:ecommerce_app/services/AuthServices.dart';
 import 'package:ecommerce_app/services/HttpRequest.dart';

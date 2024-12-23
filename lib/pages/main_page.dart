@@ -32,7 +32,7 @@ class MainPage extends StatelessWidget {
               label: 'Giỏ hàng',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.supervised_user_circle_sharp),
+              icon: Icon(Icons.settings),
               label: 'Tài khoản',
             ),
           ],

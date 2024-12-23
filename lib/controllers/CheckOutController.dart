@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:ecommerce_app/controllers/MyCartsController.dart';
 import 'package:ecommerce_app/controllers/MyOrdersController.dart';
 import 'package:ecommerce_app/models/ShoppingCartModel.dart';
-import 'package:ecommerce_app/models/UserInfoModel.dart';
 import 'package:ecommerce_app/models/VoucherModel.dart';
 import 'package:ecommerce_app/pages/Orders/OrderDetailsPage.dart';
 import 'package:ecommerce_app/pages/main_page.dart';
@@ -89,8 +88,8 @@ class CheckOutController extends GetxController {
     try {
       isLoading.value = true;
       final user = await AuthServices(HttpRequest(http.Client())).getMyInfo();
-      address.value = user.address ?? '';
-      note.value = ' ${user.fullName} đặt hàng(${user.phoneNumber})' ?? '';
+      address.value = user.address;
+      note.value = ' ${user.fullName} đặt hàng(${user.phoneNumber})';
     } catch (e) {
       print(e);
     } finally {

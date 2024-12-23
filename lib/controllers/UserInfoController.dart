@@ -1,22 +1,50 @@
 import 'dart:io';
+import 'package:ecommerce_app/controllers/AccountController.dart';
+import 'package:ecommerce_app/pages/main_page.dart';
+import 'package:ecommerce_app/services/HttpRequest.dart';
 
 import 'package:ecommerce_app/services/AuthServices.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
-class RegisterController extends GetxController {
+class UserInfoController extends GetxController {
   final userName = ''.obs;
-  final password = ''.obs;
   final fullName = ''.obs;
   final address = ''.obs;
   final email = ''.obs;
   final phoneNumber = ''.obs;
+  final avatarLink = ''.obs;
   final avatarImage = Rx<File?>(null);
-
   final userNameError = ''.obs;
   final emailError = ''.obs;
   final phoneNumberError = ''.obs;
-  final passwordError = ''.obs;
+  var isLoading = true.obs;
+  var errorMessage = ''.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchUserInfo();
+  }
+
+  Future<void> fetchUserInfo() async {
+    try {
+      isLoading.value = true;
+      errorMessage.value = '';
+      final user = await AuthServices(HttpRequest(http.Client())).getMyInfo();
+      userName.value = user.userName;
+      fullName.value = user.fullName;
+      address.value = user.address;
+      email.value = user.email;
+      phoneNumber.value = user.phoneNumber;
+      avatarLink.value = user.avatar;
+    } catch (e) {
+      errorMessage.value = 'Lỗi khi lấy thông tin: $e';
+    } finally {
+      isLoading.value = false;
+    }
+  }
 
   void pickImage() async {
     final picker = ImagePicker();
@@ -43,46 +71,31 @@ class RegisterController extends GetxController {
         ? ''
         : 'SDT không hợp lệ';
 
-    passwordError.value = '';
-    if (!RegExp(r'^(?=.*[!@#\$%^&*(),.?":{}|<>])').hasMatch(password.value)) {
-      passwordError.value += 'Ít nhất 1 ký tự thường.\n';
-    }
-    if (!RegExp(r'^(?=.*\d)').hasMatch(password.value)) {
-      passwordError.value += 'Ít nhất 1 ký tự số (\'0\'-\'9\').\n';
-    }
-    if (!RegExp(r'^(?=.*[A-Z])').hasMatch(password.value)) {
-      passwordError.value += 'Ít nhất 1 ký tự hoa (\'A\'-\'Z\').\n';
-    }
-    if (password.value.length < 6) {
-      passwordError.value = 'Ít nhất 6 ký tự.\n';
-    }
-
     return userNameError.value.isEmpty &&
         emailError.value.isEmpty &&
-        phoneNumberError.value.isEmpty &&
-        passwordError.value.isEmpty;
+        phoneNumberError.value.isEmpty;
   }
 
-  Future<void> register() async {
+  Future<void> updateInfo() async {
     if (validateFields()) {
       try {
-        bool success = await AuthServices.register(
+        bool success = await AuthServices.updateUserInfo(
           userName: userName.value,
-          password: password.value,
           fullName: fullName.value,
           address: address.value,
           email: email.value,
           phoneNumber: phoneNumber.value,
           avatarImage: avatarImage.value,
         );
-
         if (success) {
-          Get.snackbar('Success', 'Registration successful');
+          Get.delete<AccountController>();
+          Get.offAll(() => MainPage());
+          Get.snackbar('Success', 'Cập nhật thành công');
         } else {
-          Get.snackbar('Error', 'Registration failed');
+          Get.snackbar('Error', 'Cập nhât thất bại');
         }
       } catch (e) {
-        Get.snackbar('Error', 'An error occurred: $e');
+        Get.snackbar('Error', 'Đã lỗi: $e');
       }
     } else {
       print('Validation failed');

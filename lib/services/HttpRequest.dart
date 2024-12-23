@@ -10,7 +10,7 @@ class HttpRequest {
   HttpRequest(this._client);
 
   Future<http.Response> get(String endpoint) async {
-    final token = await _getJwt();
+    final token = await getJwt();
     final url = Uri.parse('${ApiConfig.baseAPIUrl}$endpoint');
     final response = await _client.get(
       url,
@@ -21,7 +21,7 @@ class HttpRequest {
 
   Future<http.Response> post(
       String endpoint, Map<String, dynamic>? body) async {
-    final token = await _getJwt();
+    final token = await getJwt();
     final url = Uri.parse('${ApiConfig.baseAPIUrl}$endpoint');
     final response = await _client.post(
       url,
@@ -35,7 +35,7 @@ class HttpRequest {
   }
 
   Future<http.Response> put(String endpoint, Map<String, dynamic> body) async {
-    final token = await _getJwt();
+    final token = await getJwt();
     final url = Uri.parse('${ApiConfig.baseAPIUrl}$endpoint');
     final response = await _client.put(
       url,
@@ -49,7 +49,7 @@ class HttpRequest {
   }
 
   Future<http.Response> delete(String endpoint) async {
-    final token = await _getJwt();
+    final token = await getJwt();
     final url = Uri.parse('${ApiConfig.baseAPIUrl}$endpoint');
     final response = await _client.delete(
       url,
@@ -58,7 +58,7 @@ class HttpRequest {
     return _handleResponse(response);
   }
 
-  Future<String?> _getJwt() async {
+  Future<String?> getJwt() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('jwt');
   }
