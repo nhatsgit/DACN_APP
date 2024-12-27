@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/controllers/ProductsByImageController.dart';
+import 'package:ecommerce_app/pages/Product/FilterProductByImage.dart';
 import 'package:ecommerce_app/pages/Shared/SearchPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,10 +8,11 @@ import 'package:ecommerce_app/components/custom_app_bar.dart';
 import 'package:ecommerce_app/components/Products/CategoryList.dart';
 import 'package:ecommerce_app/components/Products/ProductList.dart';
 import 'package:ecommerce_app/components/Products/ProductSlider.dart';
+import 'package:image_picker/image_picker.dart';
 
 class HomePage extends StatelessWidget {
   final HomeController homeController = Get.put(HomeController());
-
+  final ImagePicker _picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,6 +46,19 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
+                IconButton(
+                  icon: Icon(Icons.camera_alt, color: Colors.white),
+                  onPressed: () async {
+                    // Chọn ảnh từ thư viện
+                    final XFile? image =
+                        await _picker.pickImage(source: ImageSource.gallery);
+                    if (image != null) {
+                      Get.delete<ProductsByImageController>();
+
+                      Get.to(() => ProductsByImagePage(imagePath: image.path));
+                    }
+                  },
+                )
               ],
             ),
             const SizedBox(height: 20),

@@ -10,6 +10,7 @@ class MyCartsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MyCartsController controller = Get.put(MyCartsController());
+
     return Scaffold(
       body: Column(
         children: [
@@ -30,14 +31,19 @@ class MyCartsPage extends StatelessWidget {
                 return const Center(child: Text("Giỏ hàng trống."));
               }
 
-              return ListView.builder(
-                itemCount: controller.shoppingCarts.length,
-                itemBuilder: (context, index) {
-                  final cart = controller.shoppingCarts[index];
-                  return ShoppingCartWidget(
-                    shoppingCart: cart,
-                  );
+              return RefreshIndicator(
+                onRefresh: () async {
+                  await controller.fetchShoppingCarts();
                 },
+                child: ListView.builder(
+                  itemCount: controller.shoppingCarts.length,
+                  itemBuilder: (context, index) {
+                    final cart = controller.shoppingCarts[index];
+                    return ShoppingCartWidget(
+                      shoppingCart: cart,
+                    );
+                  },
+                ),
               );
             }),
           ),

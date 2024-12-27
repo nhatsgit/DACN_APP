@@ -31,44 +31,50 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
               ],
             ),
             Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.all(16),
-                child: Obx(() {
-                  if (controller.isLoading.value) {
-                    return const CircularProgressIndicator();
-                  }
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  await controller.fetchMyOrders(1);
+                },
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.all(16),
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Obx(() {
+                    if (controller.isLoading.value) {
+                      return const CircularProgressIndicator();
+                    }
 
-                  final orders = controller.orderByPage.value;
+                    final orders = controller.orderByPage.value;
 
-                  if (orders == null || orders.items.isEmpty) {
-                    return const Text("Không tìm thấy sản phẩm.");
-                  }
+                    if (orders == null || orders.items.isEmpty) {
+                      return const Text("Không tìm thấy sản phẩm.");
+                    }
 
-                  return Column(
-                    children: [
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: orders.items.length,
-                        itemBuilder: (context, index) {
-                          final item = orders.items[index];
-                          return ListTile(
-                            title: Order(
-                              order: item,
-                            ),
-                          );
-                        },
-                      ),
-                      PaginatedListView(
-                        pageCount: orders.pageCount, // Tổng số trang
-                        currentPage: orders.pageNumber, // Trang hiện tại
-                        onPageChanged: (page) {
-                          controller.fetchMyOrders(page);
-                        },
-                      ),
-                    ],
-                  );
-                }),
+                    return Column(
+                      children: [
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: orders.items.length,
+                          itemBuilder: (context, index) {
+                            final item = orders.items[index];
+                            return ListTile(
+                              title: Order(
+                                order: item,
+                              ),
+                            );
+                          },
+                        ),
+                        PaginatedListView(
+                          pageCount: orders.pageCount, // Tổng số trang
+                          currentPage: orders.pageNumber, // Trang hiện tại
+                          onPageChanged: (page) {
+                            controller.fetchMyOrders(page);
+                          },
+                        ),
+                      ],
+                    );
+                  }),
+                ),
               ),
             ),
           ],

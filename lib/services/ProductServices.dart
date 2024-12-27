@@ -3,7 +3,9 @@ import 'package:ecommerce_app/models/PageListProductModel.dart';
 import 'package:ecommerce_app/models/ProductImageModel.dart';
 import 'package:ecommerce_app/models/ProductModel.dart';
 import 'package:ecommerce_app/models/ReviewsModel.dart';
+import 'package:ecommerce_app/services/ApiConfig.dart';
 import 'package:ecommerce_app/services/HttpRequest.dart';
+import 'package:http/http.dart' as http;
 
 class ProductService {
   final HttpRequest _request;
@@ -118,5 +120,25 @@ class ProductService {
     } else {
       throw Exception('Failed to load filtered products');
     }
+  }
+
+  Future<List<ProductModel>> uploadImage(String imagePath) async {
+    final url = Uri.parse('${ApiConfig.baseAPIUrl}Products/searchByImage');
+
+    // Tạo multipart request
+    final request = http.MultipartRequest('POST', url)
+      ..files.add(await http.MultipartFile.fromPath(
+        'image', // Tên field trong API
+        imagePath,
+      ));
+
+    // Gửi request và đợi phản hồi
+    final streamedResponse = await request.send();
+
+    // Chuyển đổi StreamResponse thành Response
+    final response = await http.Response.fromStream(streamedResponse);
+
+    final List<dynamic> data = json.decode(response.body);
+    return data.map((jsonItem) => ProductModel.fromJson(jsonItem)).toList();
   }
 }
