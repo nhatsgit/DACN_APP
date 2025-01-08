@@ -50,6 +50,8 @@ class OrderModel {
           : null,
     );
   }
+
+  set orderStatusId(int orderStatusId) {}
 }
 
 class OrderDetailModel {

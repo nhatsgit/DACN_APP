@@ -30,4 +30,15 @@ class OrderService {
       throw Exception('Failed to load orders with ID $id');
     }
   }
+
+  Future<String> cancelOrderById(int orderId) async {
+    final endpoint = 'Orders/Cancel?id=${orderId}';
+    final response = await _customHttpClient.post(endpoint, null);
+
+    if (response.statusCode == 200) {
+      return "Hủy thành công";
+    } else {
+      throw Exception('Failed to delete: ${response.statusCode}');
+    }
+  }
 }

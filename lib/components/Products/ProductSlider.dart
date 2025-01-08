@@ -42,7 +42,7 @@ class _SliderProductState extends State<SliderProduct> {
     return Column(
       children: [
         SizedBox(
-          height: 280,
+          height: 300,
           child: PageView.builder(
             controller: _pageController,
             itemCount: widget.products.length,

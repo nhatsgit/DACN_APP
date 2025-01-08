@@ -128,13 +128,7 @@ class OrderDetailsPage extends StatelessWidget {
                           3)
                         ElevatedButton(
                           onPressed: () {
-                            Get.snackbar(
-                              "Hủy đơn hàng",
-                              "Đơn hàng của bạn đã được hủy.",
-                              snackPosition: SnackPosition.BOTTOM,
-                              backgroundColor: Colors.red,
-                              colorText: Colors.white,
-                            );
+                            controller.cancelOrder();
                           },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
